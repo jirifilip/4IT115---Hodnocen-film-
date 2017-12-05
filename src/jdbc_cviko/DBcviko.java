@@ -44,6 +44,7 @@ public class DBcviko extends Application {
     private TableColumn<Osoba, String> sloupecPrijmeni;
     private TableColumn<Osoba, String> sloupecAdresa;
     private TableColumn<Osoba, String> sloupecPohlavi;
+    private TableColumn<Osoba, String> sloupecVzdelani;
 
     private ObservableList<Osoba> dataOsoby;
     private TableView<Osoba> table;
@@ -53,13 +54,13 @@ public class DBcviko extends Application {
     private static final String dbUser = "root";
     private static final String dbPassword = "passw0rd";
 
-    private MenuLista menuLista;
 
     private TextField addID;
     private TextField addJmeno;
     private TextField addPrijmeni;
     private TextField addAdresa;
     private TextField addPohlavi;
+    private TextField addVzdelani;
     
     private String changeItem = "";
     private String changeID = "";
@@ -71,15 +72,12 @@ public class DBcviko extends Application {
         BorderPane border = new BorderPane();
         root.getChildren().add(border);
 
-        menuLista = new MenuLista();
-
-        border.setTop(menuLista.getManBar());
         border.setCenter(createTable());
         border.setBottom(addPanel());
 
         databazovaFunkce("GET", "SELECT * FROM jdbc_db.osoba");
 
-        Scene scene = new Scene(root, 600, 450);
+        Scene scene = new Scene(root, 800, 450);
 
         primaryStage.setTitle("Java DB");
         primaryStage.setResizable(false);
@@ -112,6 +110,9 @@ public class DBcviko extends Application {
         
         addPohlavi = new TextField();
         addPohlavi.setPromptText("Pohlavi");
+        
+        addVzdelani = new TextField();
+        addVzdelani.setPromptText("Vzdelani");
 
         Button pridatTlacitko = new Button("Pridat");
 
@@ -119,15 +120,16 @@ public class DBcviko extends Application {
             @Override
             public void handle(ActionEvent event) {
 
-                dataOsoby.add(new Osoba(0,Integer.valueOf(addID.getText()), addJmeno.getText(), addPrijmeni.getText(), addAdresa.getText(), addPohlavi.getText()));
+                dataOsoby.add(new Osoba(0,Integer.valueOf(addID.getText()), addJmeno.getText(), addPrijmeni.getText(), addAdresa.getText(), addPohlavi.getText(), addVzdelani.getText()));
 
-                databazovaFunkce("INSERT", "INSERT INTO jdbc_db.osoba (id_osoba, jmeno, prijmeni, adresa, pohlavi) VALUES (?,?,?,?,?)");
+                databazovaFunkce("INSERT", "INSERT INTO jdbc_db.osoba (id_osoba, jmeno, prijmeni, adresa, pohlavi, vzdelani) VALUES (?,?,?,?,?,?)");
 
                 addID.clear();
                 addJmeno.clear();
                 addPrijmeni.clear();
                 addAdresa.clear();
                 addPohlavi.clear();
+                addVzdelani.clear();
             }
         });
 
@@ -140,7 +142,7 @@ public class DBcviko extends Application {
             }
         });
 
-        dolniPanel.getChildren().addAll(addID, addJmeno, addPrijmeni, addAdresa,addPohlavi, pridatTlacitko, odebratTlacitko);
+        dolniPanel.getChildren().addAll(addID, addJmeno, addPrijmeni, addAdresa,addPohlavi,addVzdelani, pridatTlacitko, odebratTlacitko);
 
         return dolniPanel;
     }
@@ -162,19 +164,36 @@ public class DBcviko extends Application {
         
         sloupecPohlavi = new TableColumn("Pohlavi");
         sloupecPohlavi.setPrefWidth(130);
+        
+        sloupecVzdelani = new TableColumn("Vzdelani");
+        sloupecVzdelani.setPrefWidth(130);
 
         sloupecID.setCellValueFactory(new PropertyValueFactory<Osoba, Integer>("osoba_id"));
         sloupecJmeno.setCellValueFactory(new PropertyValueFactory<Osoba, String>("jmeno"));
         sloupecPrijmeni.setCellValueFactory(new PropertyValueFactory<Osoba, String>("prijmeni"));
         sloupecAdresa.setCellValueFactory(new PropertyValueFactory<Osoba, String>("adresa"));
         sloupecPohlavi.setCellValueFactory(new PropertyValueFactory<Osoba, String>("pohlavi"));
+        sloupecVzdelani.setCellValueFactory(new PropertyValueFactory<Osoba, String>("vzdelani"));
 
         sloupecID.setCellFactory(TextFieldTableCell.<Osoba, Integer>forTableColumn(new IntegerStringConverter()));
         sloupecJmeno.setCellFactory(TextFieldTableCell.forTableColumn());
         sloupecPrijmeni.setCellFactory(TextFieldTableCell.forTableColumn());
         sloupecAdresa.setCellFactory(TextFieldTableCell.forTableColumn());
         sloupecPohlavi.setCellFactory(TextFieldTableCell.forTableColumn());
+        sloupecVzdelani.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        sloupecVzdelani.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
+            @Override
+            public void handle(CellEditEvent<Osoba, String> t) {
+            Osoba menenaOsoba = (Osoba) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            menenaOsoba.setVzdelani(t.getNewValue());
+            changeID = Integer.toString(menenaOsoba.getId());
+            changeItem = menenaOsoba.getVzdelani();
+            databazovaFunkce("UPDATE", "UPDATE jdbc_db.osoba SET vzdelani = ? WHERE id = ?");    
+            
+            }
+        });
+        
         sloupecPohlavi.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
             @Override
             public void handle(CellEditEvent<Osoba, String> t) {
@@ -221,7 +240,7 @@ public class DBcviko extends Application {
         );
 
         table.setItems(dataOsoby);
-        table.getColumns().addAll(sloupecID, sloupecJmeno, sloupecPrijmeni, sloupecAdresa, sloupecPohlavi);
+        table.getColumns().addAll(sloupecID, sloupecJmeno, sloupecPrijmeni, sloupecAdresa, sloupecPohlavi, sloupecVzdelani);
         return table;
     }
 
@@ -238,6 +257,7 @@ public class DBcviko extends Application {
 
 //          provedeni dotazu
             ResultSet rs = null;
+            
             if (funkce.equals("GET")) {
 
                 statement = connection.prepareStatement(parametr);
@@ -257,6 +277,7 @@ public class DBcviko extends Application {
                 statement.setString(3, addPrijmeni.getText());
                 statement.setString(4, addAdresa.getText());
                 statement.setString(5, addPohlavi.getText());
+                statement.setString(6, addVzdelani.getText());
                 
                 statement.executeUpdate();
                 
@@ -282,9 +303,9 @@ public class DBcviko extends Application {
                 @Override
                 public void run() {
                     System.out.println(ex.getMessage());
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("DB");
-                    alert.setHeaderText("Nelze se pripojit k databazi");
+                    alert.setHeaderText("Chyba pripojeni");
 
                     alert.showAndWait();
                     System.out.println(ex.getMessage());
@@ -317,8 +338,9 @@ public class DBcviko extends Application {
                 String prijmeni = rs.getString("prijmeni");
                 String adresa = rs.getString("adresa");
                 String pohlavi = rs.getString("pohlavi");
+                String vzdelani = rs.getString("vzdelani");
 
-                dataOsoby.add(new Osoba(id,osoba_id, jmeno, prijmeni, adresa, pohlavi));
+                dataOsoby.add(new Osoba(id,osoba_id, jmeno, prijmeni, adresa, pohlavi, vzdelani));
 
             }
         } catch (SQLException ex) {

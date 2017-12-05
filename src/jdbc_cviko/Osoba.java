@@ -17,14 +17,16 @@ public class Osoba {
     private String prijmeni;
     private String adresa;
     private String pohlavi;
+    private String vzdelani;
 
-    public Osoba(int id,int osoba_id, String jmeno, String prijmeni, String adresa, String pohlavi) {
+    public Osoba(int id,int osoba_id, String jmeno, String prijmeni, String adresa, String pohlavi, String vzdelani) {
         this.id = id;
         this.osoba_id = osoba_id;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
         this.adresa = adresa;
         this.pohlavi = pohlavi;
+        this.vzdelani = vzdelani;
     }
 
     public String getJmeno() {
@@ -91,6 +93,20 @@ public class Osoba {
      */
     public void setPohlavi(String pohlavi) {
         this.pohlavi = pohlavi;
+    }
+
+    /**
+     * @return the vzdelani
+     */
+    public String getVzdelani() {
+        return vzdelani;
+    }
+
+    /**
+     * @param vzdelani the vzdelani to set
+     */
+    public void setVzdelani(String vzdelani) {
+        this.vzdelani = vzdelani;
     }
     
     
