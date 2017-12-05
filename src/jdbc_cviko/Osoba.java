@@ -16,13 +16,15 @@ public class Osoba {
     private String jmeno;
     private String prijmeni;
     private String adresa;
+    private String pohlavi;
 
-    public Osoba(int id,int osoba_id, String jmeno, String prijmeni, String adresa) {
+    public Osoba(int id,int osoba_id, String jmeno, String prijmeni, String adresa, String pohlavi) {
         this.id = id;
         this.osoba_id = osoba_id;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
         this.adresa = adresa;
+        this.pohlavi = pohlavi;
     }
 
     public String getJmeno() {
@@ -75,6 +77,20 @@ public class Osoba {
      */
     public void setOsoba_id(int osoba_id) {
         this.osoba_id = osoba_id;
+    }
+
+    /**
+     * @return the pohlavi
+     */
+    public String getPohlavi() {
+        return pohlavi;
+    }
+
+    /**
+     * @param pohlavi the pohlavi to set
+     */
+    public void setPohlavi(String pohlavi) {
+        this.pohlavi = pohlavi;
     }
     
     

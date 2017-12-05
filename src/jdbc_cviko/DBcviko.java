@@ -39,12 +39,13 @@ import javafx.util.converter.IntegerStringConverter;
  */
 public class DBcviko extends Application {
 
-    private TableColumn<Osoba, Integer> radekID;
-    private TableColumn<Osoba, String> radekJmeno;
-    private TableColumn<Osoba, String> radekPrijmeni;
-    private TableColumn<Osoba, String> radekAdresa;
+    private TableColumn<Osoba, Integer> sloupecID;
+    private TableColumn<Osoba, String> sloupecJmeno;
+    private TableColumn<Osoba, String> sloupecPrijmeni;
+    private TableColumn<Osoba, String> sloupecAdresa;
+    private TableColumn<Osoba, String> sloupecPohlavi;
 
-    private ObservableList<Osoba> lidi;
+    private ObservableList<Osoba> dataOsoby;
     private TableView<Osoba> table;
 
     private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
@@ -58,9 +59,10 @@ public class DBcviko extends Application {
     private TextField addJmeno;
     private TextField addPrijmeni;
     private TextField addAdresa;
+    private TextField addPohlavi;
     
     private String changeItem = "";
-    private int changeID = 0;
+    private String changeID = "";
     
     @Override
     public void start(Stage primaryStage) {
@@ -107,6 +109,9 @@ public class DBcviko extends Application {
 
         addAdresa = new TextField();
         addAdresa.setPromptText("Adresa");
+        
+        addPohlavi = new TextField();
+        addPohlavi.setPromptText("Pohlavi");
 
         Button pridatTlacitko = new Button("Pridat");
 
@@ -114,14 +119,15 @@ public class DBcviko extends Application {
             @Override
             public void handle(ActionEvent event) {
 
-                lidi.add(new Osoba(0,Integer.valueOf(addID.getText()), addJmeno.getText(), addPrijmeni.getText(), addAdresa.getText()));
+                dataOsoby.add(new Osoba(0,Integer.valueOf(addID.getText()), addJmeno.getText(), addPrijmeni.getText(), addAdresa.getText(), addPohlavi.getText()));
 
-                databazovaFunkce("INSERT", "INSERT INTO jdbc_db.osoba" + " (id_osoba, jmeno, prijmeni, adresa) " + " VALUES (?,?,?,?)");
+                databazovaFunkce("INSERT", "INSERT INTO jdbc_db.osoba (id_osoba, jmeno, prijmeni, adresa, pohlavi) VALUES (?,?,?,?,?)");
 
                 addID.clear();
                 addJmeno.clear();
                 addPrijmeni.clear();
                 addAdresa.clear();
+                addPohlavi.clear();
             }
         });
 
@@ -134,37 +140,53 @@ public class DBcviko extends Application {
             }
         });
 
-        dolniPanel.getChildren().addAll(addID, addJmeno, addPrijmeni, addAdresa, pridatTlacitko, odebratTlacitko);
+        dolniPanel.getChildren().addAll(addID, addJmeno, addPrijmeni, addAdresa,addPohlavi, pridatTlacitko, odebratTlacitko);
 
         return dolniPanel;
     }
 
     private TableView<Osoba> createTable() {
         table = new TableView<Osoba>();
-        lidi = FXCollections.observableArrayList();
+        dataOsoby = FXCollections.observableArrayList();
 
         table.setEditable(true);
 
-        radekID = new TableColumn("ID");
-        radekID.setEditable(false);
-        radekJmeno = new TableColumn("Jmeno");
-        radekJmeno.setPrefWidth(110);
-        radekPrijmeni = new TableColumn("Prijmeni");
-        radekPrijmeni.setPrefWidth(130);
-        radekAdresa = new TableColumn("Adresa");
-        radekAdresa.setPrefWidth(130);
+        sloupecID = new TableColumn("ID");
+        sloupecID.setEditable(false);
+        sloupecJmeno = new TableColumn("Jmeno");
+        sloupecJmeno.setPrefWidth(110);
+        sloupecPrijmeni = new TableColumn("Prijmeni");
+        sloupecPrijmeni.setPrefWidth(130);
+        sloupecAdresa = new TableColumn("Adresa");
+        sloupecAdresa.setPrefWidth(130);
+        
+        sloupecPohlavi = new TableColumn("Pohlavi");
+        sloupecPohlavi.setPrefWidth(130);
 
-        radekID.setCellValueFactory(new PropertyValueFactory<Osoba, Integer>("osoba_id"));
-        radekJmeno.setCellValueFactory(new PropertyValueFactory<Osoba, String>("jmeno"));
-        radekPrijmeni.setCellValueFactory(new PropertyValueFactory<Osoba, String>("prijmeni"));
-        radekAdresa.setCellValueFactory(new PropertyValueFactory<Osoba, String>("adresa"));
+        sloupecID.setCellValueFactory(new PropertyValueFactory<Osoba, Integer>("osoba_id"));
+        sloupecJmeno.setCellValueFactory(new PropertyValueFactory<Osoba, String>("jmeno"));
+        sloupecPrijmeni.setCellValueFactory(new PropertyValueFactory<Osoba, String>("prijmeni"));
+        sloupecAdresa.setCellValueFactory(new PropertyValueFactory<Osoba, String>("adresa"));
+        sloupecPohlavi.setCellValueFactory(new PropertyValueFactory<Osoba, String>("pohlavi"));
 
-        radekID.setCellFactory(TextFieldTableCell.<Osoba, Integer>forTableColumn(new IntegerStringConverter()));
-        radekJmeno.setCellFactory(TextFieldTableCell.forTableColumn());
-        radekPrijmeni.setCellFactory(TextFieldTableCell.forTableColumn());
-        radekAdresa.setCellFactory(TextFieldTableCell.forTableColumn());
+        sloupecID.setCellFactory(TextFieldTableCell.<Osoba, Integer>forTableColumn(new IntegerStringConverter()));
+        sloupecJmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        sloupecPrijmeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        sloupecAdresa.setCellFactory(TextFieldTableCell.forTableColumn());
+        sloupecPohlavi.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        radekID.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, Integer>>() {
+        sloupecPohlavi.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
+            @Override
+            public void handle(CellEditEvent<Osoba, String> t) {
+            Osoba menenaOsoba = (Osoba) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            menenaOsoba.setPohlavi(t.getNewValue());
+            changeID = Integer.toString(menenaOsoba.getId());
+            changeItem = menenaOsoba.getPohlavi();
+            databazovaFunkce("UPDATE", "UPDATE jdbc_db.osoba SET pohlavi = ? WHERE id = ?");
+            }
+        });
+        
+        sloupecID.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, Integer>>() {
             @Override
             public void handle(CellEditEvent<Osoba, Integer> t) {
 
@@ -172,35 +194,34 @@ public class DBcviko extends Application {
         }
         );
 
-        radekJmeno.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
+        sloupecJmeno.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
             @Override
             public void handle(CellEditEvent<Osoba, String> t) {
                 Osoba menenaOsoba = (Osoba) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 menenaOsoba.setJmeno(t.getNewValue());
-                changeID = menenaOsoba.getId();
+                changeID = Integer.toString(menenaOsoba.getId());
                 changeItem = menenaOsoba.getJmeno();
-//                databazovaFunkce("UPDATE", "UPDATE jdbc_db.osoba SET jmeno = '" + menenaOsoba.getJmeno() + "' WHERE osoba = " + menenaOsoba.getId());
                 databazovaFunkce("UPDATE", "UPDATE jdbc_db.osoba SET jmeno = ? WHERE id = ?");
             }
         }
         );
 
-        radekPrijmeni.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
+        sloupecPrijmeni.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
             @Override
             public void handle(CellEditEvent<Osoba, String> t) {
             }
         }
         );
 
-        radekAdresa.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
+        sloupecAdresa.setOnEditCommit(new EventHandler<CellEditEvent<Osoba, String>>() {
             @Override
             public void handle(CellEditEvent<Osoba, String> t) {
             }
         }
         );
 
-        table.setItems(lidi);
-        table.getColumns().addAll(radekID, radekJmeno, radekPrijmeni, radekAdresa);
+        table.setItems(dataOsoby);
+        table.getColumns().addAll(sloupecID, sloupecJmeno, sloupecPrijmeni, sloupecAdresa, sloupecPohlavi);
         return table;
     }
 
@@ -235,6 +256,7 @@ public class DBcviko extends Application {
                 statement.setString(2, addJmeno.getText());
                 statement.setString(3, addPrijmeni.getText());
                 statement.setString(4, addAdresa.getText());
+                statement.setString(5, addPohlavi.getText());
                 
                 statement.executeUpdate();
                 
@@ -245,7 +267,7 @@ public class DBcviko extends Application {
                 statement = connection.prepareStatement(parametr);
                 
                 statement.setString(1, changeItem);
-                statement.setString(2, Integer.toString(changeID));
+                statement.setString(2, changeID);
                 
                 statement.executeUpdate();
             }
@@ -294,8 +316,9 @@ public class DBcviko extends Application {
                 String jmeno = rs.getString("jmeno");
                 String prijmeni = rs.getString("prijmeni");
                 String adresa = rs.getString("adresa");
+                String pohlavi = rs.getString("pohlavi");
 
-                lidi.add(new Osoba(id,osoba_id, jmeno, prijmeni, adresa));
+                dataOsoby.add(new Osoba(id,osoba_id, jmeno, prijmeni, adresa, pohlavi));
 
             }
         } catch (SQLException ex) {
