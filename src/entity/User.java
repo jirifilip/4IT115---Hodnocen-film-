@@ -7,7 +7,9 @@ package entity;
 
 import db.Database;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,6 +70,46 @@ public class User extends Model {
     
     public static User fetchUser(String username, String password) {
         return Database.getInstance().fetchUser(username, password);
+    }
+    
+    public static User fetchUser(int userId) {
+        PreparedStatement statement = null;
+        User user = null;
+
+        try (Connection connection = Database.getConnection()){
+            ResultSet rs = null;
+            
+            statement = connection.prepareStatement(
+                "SELECT * FROM user where id_user = ?"
+            );
+            
+            statement.setString(1, String.valueOf(userId));
+            
+            rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                int id_ = rs.getInt(1);
+                String username_ = rs.getString(2);
+                String email_ = rs.getString(3);
+                String password_ = rs.getString(4);
+                String profileDesc = rs.getString(5);
+                String profilePhoto = rs.getString(6);
+                String registeredAt = rs.getString(7);
+                String lastLogin = rs.getString(8);
+                String admin = rs.getString(9);
+                
+                user = new User(id_, username_, email_, password_, profileDesc, profilePhoto, registeredAt, lastLogin, admin);
+            }
+
+            rs.close();
+                
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return user;
     }
 
     public int getId() {

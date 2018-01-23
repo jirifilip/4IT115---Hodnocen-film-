@@ -6,6 +6,7 @@
 package controller;
 
 import entity.DiscussionForum;
+import entity.DiscussionThread;
 import entity.User;
 import javafx.stage.Stage;
 import view.ForumView;
@@ -20,10 +21,12 @@ import view.RegisterView;
 public class MainController {
     
     private User currentUser;
-    private DiscussionForum forum;
+    private DiscussionForum forum = new DiscussionForum();
     private Stage primaryStage;
 
     
+
+    private MainAppView mainAppView;
     
     public MainController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -49,8 +52,13 @@ public class MainController {
         
     }
     
+    public void threadView(DiscussionThread thread) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
     public void mainView() {
-        new MainAppView(this);
+        this.mainAppView = new MainAppView(this);
     }
     
 
@@ -79,7 +87,18 @@ public class MainController {
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
+    
+    public MainAppView getMainAppView() {
+        return mainAppView;
+    }
 
+    public void setMainAppView(MainAppView mainAppView) {
+        this.mainAppView = mainAppView;
+    }
+
+    
+
+    
     
     
     

@@ -58,9 +58,9 @@ public class DiscussionThread extends Model {
     }
     
     
-    private void fetchAllComments() {
+    public ArrayList<DiscussionComment> fetchAllComments() {
         if (!discussionCommentsList.isEmpty()) {
-            return;
+            return discussionCommentsList;
         }
         
         try (Connection conn = Database.getConnection()){
@@ -93,6 +93,8 @@ public class DiscussionThread extends Model {
         catch (Exception e) {
             e.printStackTrace();
         }
+        
+        return discussionCommentsList;
     }
     
     public static ArrayList<DiscussionThread> fetchAll() {

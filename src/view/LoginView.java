@@ -69,10 +69,13 @@ public class LoginView extends VBox {
         String password = passwordTextField.getText();
 
         User user = User.fetchUser(username, password);
+
+        if (user != null) {
+            controller.setCurrentUser(user);
+            controller.mainView();
+        }
         
-        System.out.println(user.getEmail());
         
-        controller.mainView();
     }
     
     

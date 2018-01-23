@@ -8,14 +8,20 @@
             <file>file:/C:/code/java/JDBC/src/db/Database.java</file>
             <file>file:/C:/code/java/JDBC/src/view/MovieSiteDetailView.java</file>
             <file>file:/C:/code/java/JDBC/src/view/ForumView.java</file>
+            <file>file:/C:/code/java/JDBC/src/view/MainAppView.java</file>
             <file>file:/C:/code/java/JDBC/src/entity/Model.java</file>
             <file>file:/C:/code/java/JDBC/src/entity/DiscussionComment.java</file>
             <file>file:/C:/code/java/JDBC/src/entity/MoviePage.java</file>
             <file>file:/C:/code/java/JDBC/src/entity/DiscussionForum.java</file>
             <file>file:/C:/code/java/JDBC/src/entity/User.java</file>
+            <file>file:/C:/code/java/JDBC/src/view/ThreadView.java</file>
+            <file>file:/C:/code/java/JDBC/src/utils/Crypto.java</file>
             <file>file:/C:/code/java/JDBC/src/main/Osoba.java</file>
+            <file>file:/C:/code/java/JDBC/src/view/ProfileDetailView.java</file>
             <file>file:/C:/code/java/JDBC/src/main/MoviePagesRating.java</file>
             <file>file:/C:/code/java/JDBC/src/view/LoginView.java</file>
+            <file>file:/C:/code/java/JDBC/src/controller/MainController.java</file>
+            <file>file:/C:/code/java/JDBC/src/view/RegisterView.java</file>
         </group>
     </open-files>
 </project-private>

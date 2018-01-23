@@ -44,6 +44,7 @@ public class MainAppView extends BorderPane {
     
     private ProfileDetailView profileView;
     private ForumView forumView;
+    private ThreadView threadView;
     
     private MainController controller;
     
@@ -52,6 +53,7 @@ public class MainAppView extends BorderPane {
         
         profileView = new ProfileDetailView(controller);
         forumView = new ForumView(controller);
+        threadView = new ThreadView(controller);
         
         scene = new Scene(this, width, height);
         this.primaryStage = controller.getPrimaryStage();
@@ -73,17 +75,30 @@ public class MainAppView extends BorderPane {
         
         forumButton.setOnAction(this::onForumButtonClick);
         myProfileButton.setOnAction(this::onProfileButtonClick);
-
+        logoutButton.setOnAction(this::onLogoutClick);
+        
     }
     
-    private void onForumButtonClick(ActionEvent event) {
+    public void onForumButtonClick(ActionEvent event) {
         setCenter(forumView);
     }
     
-    private void onProfileButtonClick(ActionEvent event) {
+    public void onProfileButtonClick(ActionEvent event) {
         setCenter(profileView);
     }
+
+    public ThreadView getThreadView() {
+        return threadView;
+    }
+
+    public void setThreadView(ThreadView threadView) {
+        this.threadView = threadView;
+    }
     
+    public void onLogoutClick(ActionEvent event) {
+        controller.setCurrentUser(null);
+        controller.loginView();
+    }
     
     
     

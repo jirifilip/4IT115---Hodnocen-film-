@@ -60,18 +60,27 @@ public class ForumView extends VBox {
     private void init() {
         ArrayList<DiscussionThread> discussionThreadsList = controller.getForum().getDiscussionThreadsList();
         
+        VBox threadVBox = new VBox();
+        
         discussionThreadsList.forEach(thread -> {
+            Button btn = new Button(thread.getTitle());
             
+            btn.setOnAction(e -> {
+                System.out.println("blabla");
+                
+                ThreadView threadView = controller.getMainAppView().getThreadView();
+                
+                threadView.init(thread);
+                controller.getMainAppView().setCenter(threadView);
+            });
+            
+            threadVBox.getChildren().add(btn);
         });
         
         
         
         
-        this.getChildren().addAll(
-                new HBox(usernameLabel, usernameTextField),
-                new HBox(emailLabel, emailTextField),
-                new HBox(passwordLabel, passwordTextField),
-                new HBox(registerButton));
+        this.getChildren().addAll(threadVBox);
         
         
         

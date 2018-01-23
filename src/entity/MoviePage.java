@@ -5,7 +5,11 @@
  */
 package entity;
 
+import db.Database;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  *
@@ -18,14 +22,15 @@ public class MoviePage extends Model {
     private String description;
     private String url;
     private int addsIntensity;
-    private int containsMovies;
-    private int containsTvShows;
-    private int requiresSignIn;
+    private boolean containsMovies;
+    private boolean containsTvShows;
+    private boolean requiresSignIn;
     
     private Collection<User> fansList;
 
-    public MoviePage(int id, String name, String description, String url, int addsIntensity, int containsMovies, int containsTvShows, int requiresSignIn) {
-        this.id = id;
+    public MoviePage(int id, String name, String description, String url,
+            int addsIntensity, boolean containsMovies, boolean containsTvShows,
+            boolean requiresSignIn) {
         this.name = name;
         this.description = description;
         this.url = url;
@@ -33,7 +38,42 @@ public class MoviePage extends Model {
         this.containsMovies = containsMovies;
         this.containsTvShows = containsTvShows;
         this.requiresSignIn = requiresSignIn;
+        
     }
+    
+    public MoviePage(
+            String name, String description, String url, int addsIntensity,
+            boolean containsMovies, boolean containsTvShows, boolean requiresSignIn) {
+        
+        this.name = name;
+        this.description = description;
+        this.url = url;
+        this.addsIntensity = addsIntensity;
+        this.containsMovies = containsMovies;
+        this.containsTvShows = containsTvShows;
+        this.requiresSignIn = requiresSignIn;
+      
+        
+        Date date = new Date();
+        
+        ArrayList<String> paramList = new ArrayList<>();
+        paramList.add(this.name);
+        paramList.add(this.description);
+        paramList.add(this.url);
+        paramList.add(String.valueOf(this.addsIntensity));
+        paramList.add(String.valueOf(this.containsMovies));
+        paramList.add(String.valueOf(this.containsTvShows));
+        paramList.add(String.valueOf(this.requiresSignIn));
+        
+        Database
+            .getInstance()
+            .executeAction(
+                    "insert into movie_page(name, description, url, add_intensity, contains_movies, contains_tv_shows, requires_login) "
+                    + "values(?, ?, ?, ?)" , paramList);
+        
+    }
+     
+    
 
     public int getId() {
         return id;
@@ -75,27 +115,27 @@ public class MoviePage extends Model {
         this.addsIntensity = addsIntensity;
     }
 
-    public int getContainsMovies() {
+    public boolean getContainsMovies() {
         return containsMovies;
     }
 
-    public void setContainsMovies(int containsMovies) {
+    public void setContainsMovies(boolean containsMovies) {
         this.containsMovies = containsMovies;
     }
 
-    public int getContainsTvShows() {
+    public boolean getContainsTvShows() {
         return containsTvShows;
     }
 
-    public void setContainsTvShows(int containsTvShows) {
+    public void setContainsTvShows(boolean containsTvShows) {
         this.containsTvShows = containsTvShows;
     }
 
-    public int getRequiresSignIn() {
+    public boolean getRequiresSignIn() {
         return requiresSignIn;
     }
 
-    public void setRequiresSignIn(int requiresSignIn) {
+    public void setRequiresSignIn(boolean requiresSignIn) {
         this.requiresSignIn = requiresSignIn;
     }
 
