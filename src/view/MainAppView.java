@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.MainController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -39,11 +40,21 @@ public class MainAppView extends BorderPane {
     private Button sitesButton = new Button("Sites");
     private Button myProfileButton = new Button("My Profile");
     private Button forumButton = new Button("Forum");
-    private Button logoutButton = new Button("Log out");    
+    private Button logoutButton = new Button("Log out");   
     
-    public MainAppView(Stage primaryStage) {
+    private ProfileDetailView profileView;
+    private ForumView forumView;
+    
+    private MainController controller;
+    
+    public MainAppView(MainController controller) {
+        this.controller = controller;
+        
+        profileView = new ProfileDetailView(controller);
+        forumView = new ForumView(controller);
+        
         scene = new Scene(this, width, height);
-        this.primaryStage = primaryStage;
+        this.primaryStage = controller.getPrimaryStage();
         
         init();
     }
@@ -54,12 +65,23 @@ public class MainAppView extends BorderPane {
                 myProfileButton, forumButton, logoutButton);
         
         setLeft(leftVBox);
-        setCenter(new ProfileDetailView());
+        setCenter(profileView);
         
         primaryStage.setScene(scene);
         
         primaryStage.show();
+        
+        forumButton.setOnAction(this::onForumButtonClick);
+        myProfileButton.setOnAction(this::onProfileButtonClick);
 
+    }
+    
+    private void onForumButtonClick(ActionEvent event) {
+        setCenter(forumView);
+    }
+    
+    private void onProfileButtonClick(ActionEvent event) {
+        setCenter(profileView);
     }
     
     

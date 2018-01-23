@@ -44,6 +44,10 @@ public class Database {
         
     }
     
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(dbConnection, dbUser, dbPassword);
+    }
+    
     public User fetchUser(String username, String password) {
         Connection connection = null;
         PreparedStatement statement = null;

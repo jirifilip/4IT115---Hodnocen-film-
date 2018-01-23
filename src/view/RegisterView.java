@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.MainController;
 import entity.User;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -45,9 +46,14 @@ public class RegisterView extends VBox {
     private Button registerButton = new Button("Registrovat se");
     
     
-    public RegisterView(Stage primaryStage) {
+    private MainController controller;
+    
+    
+    public RegisterView(MainController controller) {
+        this.controller = controller;
+        
         scene = new Scene(this, width, height);
-        this.primaryStage = primaryStage;
+        this.primaryStage = controller.getPrimaryStage();
         
         init();
     }
@@ -78,7 +84,7 @@ public class RegisterView extends VBox {
             User user = new User(username, email, password);
         }
         
-        new MainAppView(primaryStage);
+        controller.mainView();
     }
     
 }

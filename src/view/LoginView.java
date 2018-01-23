@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.MainController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,6 +28,8 @@ public class LoginView extends VBox {
     private Stage primaryStage;
     private Scene scene;
     
+    private MainController controller;
+    
     // komponenty
     private Label loginLabel = new Label("Login");
     private TextField usernameTextField = new TextField();
@@ -36,9 +39,12 @@ public class LoginView extends VBox {
     private Button lostPasswordButton = new Button("Lost Password");
     
     
-    public LoginView(Stage primaryStage) {
+    public LoginView(MainController controller) {
         scene = new Scene(this, width, height);
-        this.primaryStage = primaryStage;
+        
+        this.controller = controller;
+        
+        this.primaryStage = this.controller.getPrimaryStage();
         
         init();
     }
@@ -54,10 +60,9 @@ public class LoginView extends VBox {
         
         
         loginButton.setOnAction(this::onLoginButtonClick);
-        registerButton.setOnAction(e -> new RegisterView(primaryStage));
+        registerButton.setOnAction(e -> controller.registerView());
 
     }
-    
     
     private void onLoginButtonClick(ActionEvent event) {
         String username = usernameTextField.getText();
@@ -67,7 +72,7 @@ public class LoginView extends VBox {
         
         System.out.println(user.getEmail());
         
-        new MainAppView(primaryStage);
+        controller.mainView();
     }
     
     

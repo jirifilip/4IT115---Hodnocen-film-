@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.MainController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,7 +31,12 @@ public class ProfileDetailView extends VBox {
     private Button saveChangesButton = new Button("Save Changes");
     
     
-    public ProfileDetailView() {
+    private MainController controller;
+    
+    
+    public ProfileDetailView(MainController controller) {
+        this.controller = controller;
+        
         init();
     }
 
@@ -39,4 +45,5 @@ public class ProfileDetailView extends VBox {
                 usernameTextField, changePasswordButton, saveChangesButton);
          
     }
+    
 }

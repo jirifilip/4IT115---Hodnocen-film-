@@ -5,7 +5,11 @@
  */
 package main;
 
+import controller.MainController;
 import db.Database;
+import entity.DiscussionComment;
+import entity.DiscussionForum;
+import entity.DiscussionThread;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -45,11 +49,13 @@ public class MoviePagesRating extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        
+        MainController mainController = new MainController(primaryStage);
 
-        new LoginView(primaryStage);
+        mainController.loginView();
         
         Database db = Database.getInstance();
-        
+
     }
 
     /**
