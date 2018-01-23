@@ -10,5 +10,8 @@ package entity;
  * @author Jirka_
  */
 public class DiscussionComment extends Model {
+   
+    
+    
     
 }

@@ -11,4 +11,8 @@ package entity;
  */
 public class DiscussionForum extends Model {
     
+    public DiscussionForum() {
+        
+    }
+    
 }

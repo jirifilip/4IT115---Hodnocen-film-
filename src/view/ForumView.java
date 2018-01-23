@@ -9,6 +9,6 @@ package view;
  *
  * @author Jirka_
  */
-public class ForumView {
+public class ForumView extends VBox {
     
 }
