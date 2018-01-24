@@ -49,7 +49,7 @@ public class LoginView extends VBox {
         init();
     }
 
-    private void init() {
+    public void init() {
         this.getChildren().addAll(loginLabel, usernameTextField, passwordTextField,
                 loginButton, registerButton, lostPasswordButton);
         

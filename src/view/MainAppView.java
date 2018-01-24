@@ -45,6 +45,8 @@ public class MainAppView extends BorderPane {
     private ProfileDetailView profileView;
     private ForumView forumView;
     private ThreadView threadView;
+    private MovieListView movieListView;
+    private AddMovieSiteView addMovieSiteView;
     
     private MainController controller;
     
@@ -54,6 +56,8 @@ public class MainAppView extends BorderPane {
         profileView = new ProfileDetailView(controller);
         forumView = new ForumView(controller);
         threadView = new ThreadView(controller);
+        movieListView = new MovieListView(controller);
+        addMovieSiteView = new AddMovieSiteView(controller);
         
         scene = new Scene(this, width, height);
         this.primaryStage = controller.getPrimaryStage();
@@ -76,15 +80,25 @@ public class MainAppView extends BorderPane {
         forumButton.setOnAction(this::onForumButtonClick);
         myProfileButton.setOnAction(this::onProfileButtonClick);
         logoutButton.setOnAction(this::onLogoutClick);
-        
+        sitesButton.setOnAction(this::onMovieSitesClick);
     }
     
     public void onForumButtonClick(ActionEvent event) {
+        forumView.init();
         setCenter(forumView);
     }
     
     public void onProfileButtonClick(ActionEvent event) {
         setCenter(profileView);
+    }
+    
+    public void onMovieSitesClick(ActionEvent event) {
+        movieListView.init();
+        setCenter(movieListView);
+    }
+    
+    public void onNewMoviePageClick(ActionEvent event) {
+        setCenter(addMovieSiteView);
     }
 
     public ThreadView getThreadView() {

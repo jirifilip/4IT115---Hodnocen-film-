@@ -10,18 +10,22 @@ import controller.MainController;
 import entity.MoviePage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
  * @author Jirka_
  */
-public class MovieSiteDetailView {
-    
+public class AddMovieSiteView extends GridPane {
+
     private MainController controller;
     
     private TextField titleField = new TextField();
@@ -97,7 +101,6 @@ public class MovieSiteDetailView {
             
             new MoviePage(name, desc, url, addIntensity, movies, shows, login);
        });
-    
-    
+    }
     
 }

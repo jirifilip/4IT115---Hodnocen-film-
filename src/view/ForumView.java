@@ -57,7 +57,9 @@ public class ForumView extends VBox {
     }
     
 
-    private void init() {
+    public void init() {
+        this.getChildren().clear();
+        
         ArrayList<DiscussionThread> discussionThreadsList = controller.getForum().getDiscussionThreadsList();
         
         VBox threadVBox = new VBox();

@@ -10,6 +10,7 @@ import db.Database;
 import entity.DiscussionComment;
 import entity.DiscussionForum;
 import entity.DiscussionThread;
+import entity.MoviePage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -55,6 +56,7 @@ public class MoviePagesRating extends Application {
         mainController.loginView();
         
         Database db = Database.getInstance();
+        
 
     }
 

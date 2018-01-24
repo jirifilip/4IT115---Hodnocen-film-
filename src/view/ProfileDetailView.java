@@ -40,7 +40,7 @@ public class ProfileDetailView extends VBox {
         init();
     }
 
-    private void init() {
+    public void init() {
         this.getChildren().addAll(titleLabel, emailLabel, emailTextField, usernameLabel,
                 usernameTextField, changePasswordButton, saveChangesButton);
          

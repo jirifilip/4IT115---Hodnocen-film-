@@ -6,6 +6,9 @@
 package entity;
 
 import db.Database;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,16 +64,56 @@ public class MoviePage extends Model {
         paramList.add(this.description);
         paramList.add(this.url);
         paramList.add(String.valueOf(this.addsIntensity));
-        paramList.add(String.valueOf(this.containsMovies));
-        paramList.add(String.valueOf(this.containsTvShows));
-        paramList.add(String.valueOf(this.requiresSignIn));
+        paramList.add(String.valueOf(this.containsMovies? 1 : 0));
+        paramList.add(String.valueOf(this.containsTvShows? 1 : 0));
+        paramList.add(String.valueOf(this.requiresSignIn? 1 : 0));
         
         Database
             .getInstance()
             .executeAction(
                     "insert into movie_page(name, description, url, add_intensity, contains_movies, contains_tv_shows, requires_login) "
-                    + "values(?, ?, ?, ?)" , paramList);
+                    + "values(?, ?, ?, ?, ?, ?, ?)" , paramList);
         
+    }
+    
+    
+    public static ArrayList<MoviePage> fetchAll() {
+        ArrayList<MoviePage> movies = new ArrayList<>();
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement("select * from movie_page");
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String title = rs.getString(2);
+                String description = rs.getString(3);
+                String url = rs.getString(4);
+                int addIntensity = rs.getInt(5);
+                boolean containsMovies = rs.getBoolean(6);
+                boolean containsShows = rs.getBoolean(7);
+                boolean requiresLogin = rs.getBoolean(8);
+                        
+                MoviePage moviePage = new MoviePage(id, title, description,
+                    url, addIntensity, containsMovies, containsShows, requiresLogin);
+                
+                
+                movies.add(moviePage);
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return movies;
     }
      
     
