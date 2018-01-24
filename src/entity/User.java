@@ -112,6 +112,37 @@ public class User extends Model {
         return user;
     }
     
+    public boolean hasRatedMovieSite(MovieSite movieSite) {
+        boolean result = false;
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement("select * from movie_page_rating "
+                    + "where movie_page_id=? "
+                    + "and user_id=?;");
+            
+            statement.setString(1, String.valueOf(movieSite.getId()));
+            statement.setString(2, String.valueOf(this.id));
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                result = true;
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return result;
+    }
+    
     public static ArrayList<User> fetchAll() {
         ArrayList<User> users = new ArrayList<>();
         

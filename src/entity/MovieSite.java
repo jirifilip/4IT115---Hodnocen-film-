@@ -77,6 +77,53 @@ public class MovieSite extends Model {
         
     }
     
+    public void rate(boolean upOrDown, int userId) {
+        ArrayList<String> params = new ArrayList<>();
+        
+        params.add(String.valueOf(this.id));
+        params.add(String.valueOf(userId));
+        params.add(upOrDown ? "1" : "-1");
+
+        Database
+                .getInstance()
+                .executeAction("insert into movie_page_rating"
+                        + " (movie_page_id, user_id, rating_value)"
+                        + "values (?, ?, ?)",
+                        params);
+    }
+    
+    public int getRating() {
+        
+        int rating = 0;
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement(
+                    "select sum(rating_value) from movie_page_rating"
+                    + " where movie_page_id = ?");
+            
+            statement.setInt(1, this.id);
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                    
+                rating = rs.getInt(1);
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return rating;
+    }
+    
     public void update() {
         ArrayList<String> paramList = new ArrayList<>();
         
@@ -129,8 +176,6 @@ public class MovieSite extends Model {
             while (rs.next()) {
                 
                 int id_ = rs.getInt(1);
-                
-                System.out.println(id_);
                 
                 String title = rs.getString(2);
                 String description = rs.getString(3);
