@@ -18,7 +18,7 @@ import java.util.Date;
  *
  * @author Jirka_
  */
-public class MoviePage extends Model {
+public class MovieSite extends Model {
     
     private int id;
     private String name;
@@ -31,9 +31,10 @@ public class MoviePage extends Model {
     
     private Collection<User> fansList;
 
-    public MoviePage(int id, String name, String description, String url,
+    public MovieSite(int id, String name, String description, String url,
             int addsIntensity, boolean containsMovies, boolean containsTvShows,
             boolean requiresSignIn) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.url = url;
@@ -44,7 +45,7 @@ public class MoviePage extends Model {
         
     }
     
-    public MoviePage(
+    public MovieSite(
             String name, String description, String url, int addsIntensity,
             boolean containsMovies, boolean containsTvShows, boolean requiresSignIn) {
         
@@ -76,9 +77,46 @@ public class MoviePage extends Model {
         
     }
     
+    public void update() {
+        ArrayList<String> paramList = new ArrayList<>();
+        
+        paramList.add(this.name);
+        paramList.add(this.description);
+        paramList.add(this.url);
+        paramList.add(String.valueOf(this.addsIntensity));
+        paramList.add(String.valueOf(this.containsMovies? 1 : 0));
+        paramList.add(String.valueOf(this.containsTvShows? 1 : 0));
+        paramList.add(String.valueOf(this.requiresSignIn? 1 : 0));
+        paramList.add(String.valueOf(this.id));
+        
+//        String q = "update movie_page set name=" + this.name + ","
+//                + " description=" + this.description + ","
+//                + " url=" + this.url + ","
+//                + " add_intensity=" + String.valueOf(this.addsIntensity) + ","
+//                + " contains_movies=" + String.valueOf(this.containsMovies? 1 : 0) + ","
+//                + " contains_tv_shows=" + String.valueOf(this.containsTvShows? 1 : 0) + ","
+//                + " requires_login=" + String.valueOf(this.requiresSignIn? 1 : 0) + ","
+//                + " where id_movie_page=" + String.valueOf(this.id) + ",";
+//        
+//        System.out.println(q);
+        
+        Database
+            .getInstance()
+            .executeAction(
+                "update movie_page set name=?,"
+                + " description=?,"
+                + " url=?,"
+                + " add_intensity=?,"
+                + " contains_movies=?,"
+                + " contains_tv_shows=?,"
+                + " requires_login=?"
+                + " where id_movie_page=? "
+                , paramList);
+    }
     
-    public static ArrayList<MoviePage> fetchAll() {
-        ArrayList<MoviePage> movies = new ArrayList<>();
+    
+    public static ArrayList<MovieSite> fetchAll() {
+        ArrayList<MovieSite> movies = new ArrayList<>();
         
         try (Connection conn = Database.getConnection()){
             PreparedStatement statement = null;
@@ -89,7 +127,11 @@ public class MoviePage extends Model {
             rs = statement.executeQuery();
             
             while (rs.next()) {
-                int id = rs.getInt(1);
+                
+                int id_ = rs.getInt(1);
+                
+                System.out.println(id_);
+                
                 String title = rs.getString(2);
                 String description = rs.getString(3);
                 String url = rs.getString(4);
@@ -98,7 +140,7 @@ public class MoviePage extends Model {
                 boolean containsShows = rs.getBoolean(7);
                 boolean requiresLogin = rs.getBoolean(8);
                         
-                MoviePage moviePage = new MoviePage(id, title, description,
+                MovieSite moviePage = new MovieSite(id_, title, description,
                     url, addIntensity, containsMovies, containsShows, requiresLogin);
                 
                 
@@ -192,5 +234,17 @@ public class MoviePage extends Model {
     
     
     
+    public void setAll(
+            String name, String description, String url, int addsIntensity,
+            boolean containsMovies, boolean containsTvShows, boolean requiresSignIn) {
+        
+        this.name = name;
+        this.description = description;
+        this.url = url;
+        this.addsIntensity = addsIntensity;
+        this.containsMovies = containsMovies;
+        this.containsTvShows = containsTvShows;
+        this.requiresSignIn = requiresSignIn;
+    }
     
 }

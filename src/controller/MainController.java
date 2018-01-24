@@ -9,10 +9,10 @@ import entity.DiscussionForum;
 import entity.DiscussionThread;
 import entity.User;
 import javafx.stage.Stage;
-import view.ForumView;
-import view.LoginView;
-import view.MainAppView;
-import view.RegisterView;
+import view.forum.ForumView;
+import view.login.LoginView;
+import view.main.MainView;
+import view.login.RegisterView;
 
 /**
  *
@@ -26,7 +26,7 @@ public class MainController {
 
     
 
-    private MainAppView mainAppView;
+    private MainView mainAppView;
     
     public MainController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -58,7 +58,7 @@ public class MainController {
 
     
     public void mainView() {
-        this.mainAppView = new MainAppView(this);
+        this.mainAppView = new MainView(this);
     }
     
 
@@ -88,11 +88,11 @@ public class MainController {
         this.currentUser = currentUser;
     }
     
-    public MainAppView getMainAppView() {
+    public MainView getMainAppView() {
         return mainAppView;
     }
 
-    public void setMainAppView(MainAppView mainAppView) {
+    public void setMainAppView(MainView mainAppView) {
         this.mainAppView = mainAppView;
     }
 

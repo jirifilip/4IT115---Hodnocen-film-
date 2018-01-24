@@ -111,6 +111,46 @@ public class User extends Model {
         
         return user;
     }
+    
+    public static ArrayList<User> fetchAll() {
+        ArrayList<User> users = new ArrayList<>();
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement("select * from user");
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                
+                int id_ = rs.getInt(1);
+                String username_ = rs.getString(2);
+                String email_ = rs.getString(3);
+                String password_ = rs.getString(4);
+                String profileDesc = rs.getString(5);
+                String profilePhoto = rs.getString(6);
+                String registeredAt = rs.getString(7);
+                String lastLogin = rs.getString(8);
+                String admin = rs.getString(9);
+                
+                User user = new User(id_, username_, email_, password_, profileDesc, profilePhoto, registeredAt, lastLogin, admin);
+                
+                
+                users.add(user);
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return users;
+    }
 
     public int getId() {
         return id;

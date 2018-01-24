@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.user;
 
 import controller.MainController;
 import javafx.scene.control.Button;
@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Jirka_
  */
-public class ProfileDetailView extends VBox {
+public class ProfileSettingView extends VBox {
 
     private Label titleLabel = new Label("My profile");
     
@@ -34,7 +34,7 @@ public class ProfileDetailView extends VBox {
     private MainController controller;
     
     
-    public ProfileDetailView(MainController controller) {
+    public ProfileSettingView(MainController controller) {
         this.controller = controller;
         
         init();

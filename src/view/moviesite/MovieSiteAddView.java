@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.moviesite;
 
 import component.NumberTextField;
 import controller.MainController;
-import entity.MoviePage;
+import entity.MovieSite;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.NumberAxis;
@@ -24,7 +25,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Jirka_
  */
-public class AddMovieSiteView extends GridPane {
+public class MovieSiteAddView extends GridPane {
 
     private MainController controller;
     
@@ -48,14 +49,9 @@ public class AddMovieSiteView extends GridPane {
     private Button addMovieSiteButton = new Button("Ulož stránku");
     
     
-    public AddMovieSiteView(MainController controller) {
+    public MovieSiteAddView(MainController controller) {
         this.controller = controller;
         
-        setAlignment(Pos.CENTER);
-        setVgap(10);
-        setHgap(10);
-        setPadding(new Insets(25, 25, 25, 25));
-
         init();
     }
     
@@ -63,6 +59,13 @@ public class AddMovieSiteView extends GridPane {
     
     
     public void init() {
+        this.getChildren().clear();
+        
+        setAlignment(Pos.CENTER);
+        setVgap(10);
+        setHgap(10);
+        setPadding(new Insets(25, 25, 25, 25));
+        
         add(titleLabel, 0, 0);
         add(titleField, 1, 0);
         
@@ -99,7 +102,9 @@ public class AddMovieSiteView extends GridPane {
             boolean shows = includesShowsBox.isSelected();
             boolean login = requiresLoginBox.isSelected();
             
-            new MoviePage(name, desc, url, addIntensity, movies, shows, login);
+            new MovieSite(name, desc, url, addIntensity, movies, shows, login);
+            
+            controller.getMainAppView().onMovieSitesClick(new ActionEvent());
        });
     }
     

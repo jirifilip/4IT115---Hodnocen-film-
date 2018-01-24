@@ -10,7 +10,7 @@ import db.Database;
 import entity.DiscussionComment;
 import entity.DiscussionForum;
 import entity.DiscussionThread;
-import entity.MoviePage;
+import entity.MovieSite;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,7 +38,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
-import view.LoginView;
+import view.login.LoginView;
 
 public class MoviePagesRating extends Application {
 

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.moviesite;
 
 import component.NumberTextField;
 import controller.MainController;
-import entity.MoviePage;
+import entity.MovieSite;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,12 +16,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 /**
  *
  * @author Jirka_
  */
-public class MovieSiteDetailView {
+public class MovieSiteEditView extends GridPane {
     
     private MainController controller;
     
@@ -41,10 +43,10 @@ public class MovieSiteDetailView {
     private Label loginLabel = new Label("Vyžaduje přihlášení");
     
     
-    private Button addMovieSiteButton = new Button("Ulož stránku");
+    private Button saveMovieSiteButton = new Button("Uprav stránku");
     
     
-    public AddMovieSiteView(MainController controller) {
+    public MovieSiteEditView(MainController controller) {
         this.controller = controller;
         
         setAlignment(Pos.CENTER);
@@ -52,13 +54,23 @@ public class MovieSiteDetailView {
         setHgap(10);
         setPadding(new Insets(25, 25, 25, 25));
 
-        init();
     }
     
     
     
     
-    public void init() {
+    public void init(MovieSite movieSite) {
+        getChildren().clear();
+        
+        
+        titleField.setText(movieSite.getName());
+        descriptionField.setText(movieSite.getDescription());
+        urlField.setText(movieSite.getUrl());
+        addIntensityBox.setText(String.valueOf(movieSite.getAddsIntensity()));
+        includesMoviesBox.setSelected(movieSite.getContainsMovies());
+        includesShowsBox.setSelected(movieSite.getContainsTvShows());
+        requiresLoginBox.setSelected(movieSite.getRequiresSignIn());
+        
         add(titleLabel, 0, 0);
         add(titleField, 1, 0);
         
@@ -81,9 +93,11 @@ public class MovieSiteDetailView {
         add(requiresLoginBox, 1, 6);
         
         
-        add(addMovieSiteButton, 1, 7);
+        add(saveMovieSiteButton, 1, 7);
         
-        addMovieSiteButton.setOnAction(e -> {
+        System.out.println(movieSite.getId());
+        
+        saveMovieSiteButton.setOnAction(e -> {
             String name = titleField.getText();
             String desc = descriptionField.getText();
             String url = urlField.getText();
@@ -95,9 +109,13 @@ public class MovieSiteDetailView {
             boolean shows = includesShowsBox.isSelected();
             boolean login = requiresLoginBox.isSelected();
             
-            new MoviePage(name, desc, url, addIntensity, movies, shows, login);
+            System.out.println(name);
+            
+            movieSite.setAll(name, desc, url, addIntensity, movies, shows, login);
+            movieSite.update();
+            
+            controller.getMainAppView().onMovieSitesClick(new ActionEvent());
        });
-    
-    
+    }
     
 }

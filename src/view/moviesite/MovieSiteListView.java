@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.moviesite;
 
 import controller.MainController;
 import entity.DiscussionComment;
-import entity.MoviePage;
+import entity.MovieSite;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
@@ -23,12 +23,12 @@ import javafx.scene.layout.VBox;
  *
  * @author Jirka_
  */
-public class MovieListView extends VBox {
+public class MovieSiteListView extends VBox {
     
     private MainController controller;
     private Button addMoviePageButton = new Button("Přidej novou filmovou stranu");
     
-    public MovieListView(MainController controller) {
+    public MovieSiteListView(MainController controller) {
         this.controller = controller;
     
         addMoviePageButton.setOnAction(e -> controller.getMainAppView().onNewMoviePageClick(e));
@@ -41,12 +41,16 @@ public class MovieListView extends VBox {
         
         getChildren().add(addMoviePageButton);
         
-        ArrayList<MoviePage> movies = MoviePage.fetchAll();
+        ArrayList<MovieSite> movies = MovieSite.fetchAll();
         
         movies.forEach(movie -> {
             FlowPane movieDetailContainer = new FlowPane();
             
             Button btn =  new Button(movie.getName());
+            
+            btn.setOnAction(e -> {
+                controller.getMainAppView().moviePageDetailView(movie);
+            });
             
             movieDetailContainer.getChildren().addAll(
                    btn

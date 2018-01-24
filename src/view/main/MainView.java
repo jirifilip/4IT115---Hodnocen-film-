@@ -3,9 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.main;
 
+import view.forum.ForumView;
+import view.forum.ThreadView;
+import view.moviesite.MovieSiteDetailView;
+import view.moviesite.MovieSiteListView;
 import controller.MainController;
+import entity.MovieSite;
+import entity.User;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,12 +20,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import view.moviesite.MovieSiteAddView;
+import view.moviesite.MovieSiteEditView;
+import view.user.ProfileSettingView;
+import view.user.UserDetailView;
+import view.user.UserListView;
 
 /**
  *
  * @author Jirka_
  */
-public class MainAppView extends BorderPane {
+public class MainView extends BorderPane {
     
     private final double width = 750;
     private final double height = 750;
@@ -40,24 +51,39 @@ public class MainAppView extends BorderPane {
     private Button sitesButton = new Button("Sites");
     private Button myProfileButton = new Button("My Profile");
     private Button forumButton = new Button("Forum");
+    private Button usersButton = new Button("Uživatelé");
     private Button logoutButton = new Button("Log out");   
     
-    private ProfileDetailView profileView;
+    private UserListView userListView;
+    private UserDetailView userDetailView;
+    private ProfileSettingView profileView;
+    
     private ForumView forumView;
     private ThreadView threadView;
-    private MovieListView movieListView;
-    private AddMovieSiteView addMovieSiteView;
+    
+    private MovieSiteListView movieListView;
+    private MovieSiteAddView addMovieSiteView;
+    private MovieSiteDetailView movieSiteDetailView;
+    private MovieSiteEditView movieSiteEditView;
+    
+    
     
     private MainController controller;
     
-    public MainAppView(MainController controller) {
+    public MainView(MainController controller) {
         this.controller = controller;
         
-        profileView = new ProfileDetailView(controller);
+        userDetailView = new UserDetailView(controller);
+        userListView = new UserListView(controller);
+        profileView = new ProfileSettingView(controller);
+        
         forumView = new ForumView(controller);
         threadView = new ThreadView(controller);
-        movieListView = new MovieListView(controller);
-        addMovieSiteView = new AddMovieSiteView(controller);
+        
+        movieListView = new MovieSiteListView(controller);
+        addMovieSiteView = new MovieSiteAddView(controller);
+        movieSiteDetailView = new MovieSiteDetailView(controller);
+        movieSiteEditView = new MovieSiteEditView(controller);
         
         scene = new Scene(this, width, height);
         this.primaryStage = controller.getPrimaryStage();
@@ -68,7 +94,7 @@ public class MainAppView extends BorderPane {
     private void init() {
         
         leftVBox.getChildren().addAll(usernameLabel, searchTextField, sitesButton,
-                myProfileButton, forumButton, logoutButton);
+                myProfileButton, forumButton, usersButton, logoutButton);
         
         setLeft(leftVBox);
         setCenter(profileView);
@@ -81,6 +107,8 @@ public class MainAppView extends BorderPane {
         myProfileButton.setOnAction(this::onProfileButtonClick);
         logoutButton.setOnAction(this::onLogoutClick);
         sitesButton.setOnAction(this::onMovieSitesClick);
+        
+        usersButton.setOnAction(this::onUserListViewClick);
     }
     
     public void onForumButtonClick(ActionEvent event) {
@@ -98,6 +126,7 @@ public class MainAppView extends BorderPane {
     }
     
     public void onNewMoviePageClick(ActionEvent event) {
+        addMovieSiteView.init();
         setCenter(addMovieSiteView);
     }
 
@@ -113,7 +142,28 @@ public class MainAppView extends BorderPane {
         controller.setCurrentUser(null);
         controller.loginView();
     }
+
+    public void moviePageDetailView(MovieSite movie) {
+        movieSiteDetailView.init(movie);
+        setCenter(movieSiteDetailView);
+    }
     
+    public void moviePageEditView(MovieSite movieSite) {
+        movieSiteEditView.init(movieSite);
+        setCenter(movieSiteEditView);
+    }
+
+    public void userDetailView(User user) {
+        userDetailView.init(user);
+        setCenter(userDetailView);
+    }
     
-    
+    public void onUserListViewClick(ActionEvent event) {
+        userListView.init();
+        setCenter(userListView);
+    }
+
 }
+
+    
+    
