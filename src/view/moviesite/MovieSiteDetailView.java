@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 /**
@@ -82,8 +83,10 @@ public class MovieSiteDetailView extends GridPane {
         requiresLoginBox.setDisable(true);
         
         int ratingValue = moviePage.getRating();
+        
         ratingText.setText(String.valueOf(ratingValue));
-            
+        ratingText.setFill(Paint.valueOf("white"));
+        
         this.add(titleLabel, 0, 0);
         this.add(titleField, 1, 0);
         
@@ -108,8 +111,10 @@ public class MovieSiteDetailView extends GridPane {
         this.add(new Label("Hodnocení"), 0, 7);
         this.add(ratingText, 1, 7);
         
-        this.add(badRatingButton, 0, 8);
-        this.add(goodRatingButton, 1, 8);
+        if (controller.getCurrentUser() != null) {
+            this.add(badRatingButton, 0, 8);
+            this.add(goodRatingButton, 1, 8);
+        }
         
         this.add(editMovieSiteButton, 1, 9);
         
@@ -125,6 +130,9 @@ public class MovieSiteDetailView extends GridPane {
                 moviePage.rate(true, controller.getCurrentUser().getId());
                 int val = moviePage.getRating();
                 ratingText.setText(String.valueOf(val));
+            } else {
+                controller.alert("Chyba", "Chyba při interakci", 
+                        "Už jste jednou pro film hlasoval/a");
             }
         });
         
@@ -135,6 +143,9 @@ public class MovieSiteDetailView extends GridPane {
                 moviePage.rate(false, controller.getCurrentUser().getId());
                 int val = moviePage.getRating();
                 ratingText.setText(String.valueOf(val));
+            } else {
+                controller.alert("Chyba", "Chyba při interakci", 
+                        "Už jste jednou pro film hlasoval/a");
             }
         });
         

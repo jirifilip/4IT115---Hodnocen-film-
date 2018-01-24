@@ -8,6 +8,8 @@ package controller;
 import entity.DiscussionForum;
 import entity.DiscussionThread;
 import entity.User;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import view.forum.ForumView;
 import view.login.LoginView;
@@ -27,6 +29,16 @@ public class MainController {
     
 
     private MainView mainAppView;
+    
+    
+    public void alert(String title, String headerText, String contentText) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+
+        alert.showAndWait();
+    }
     
     public MainController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -51,11 +63,6 @@ public class MainController {
     public void profileView() {
         
     }
-    
-    public void threadView(DiscussionThread thread) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     
     public void mainView() {
         this.mainAppView = new MainView(this);

@@ -8,6 +8,7 @@ package view.moviesite;
 import component.NumberTextField;
 import controller.MainController;
 import entity.MovieSite;
+import entity.User;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -44,6 +45,7 @@ public class MovieSiteEditView extends GridPane {
     
     
     private Button saveMovieSiteButton = new Button("Uprav stránku");
+    private Button deleteMovieSiteButton = new Button("Smaž stránku");
     
     
     public MovieSiteEditView(MainController controller) {
@@ -64,6 +66,8 @@ public class MovieSiteEditView extends GridPane {
         
         
         titleField.setText(movieSite.getName());
+        
+        descriptionField.setMaxWidth(250);
         descriptionField.setText(movieSite.getDescription());
         urlField.setText(movieSite.getUrl());
         addIntensityBox.setText(String.valueOf(movieSite.getAddsIntensity()));
@@ -95,7 +99,18 @@ public class MovieSiteEditView extends GridPane {
         
         add(saveMovieSiteButton, 1, 7);
         
-        System.out.println(movieSite.getId());
+        User user = controller.getCurrentUser();
+        if (user != null) {
+            if (user.isAdmin()) {
+                add(deleteMovieSiteButton, 1, 8);
+            }
+        }
+        
+        deleteMovieSiteButton.setOnAction(e -> {
+            movieSite.delete();
+            
+            controller.getMainAppView().onMovieSitesClick(new ActionEvent());
+        });
         
         saveMovieSiteButton.setOnAction(e -> {
             String name = titleField.getText();

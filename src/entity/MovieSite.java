@@ -291,5 +291,17 @@ public class MovieSite extends Model {
         this.containsTvShows = containsTvShows;
         this.requiresSignIn = requiresSignIn;
     }
+
+    public void delete() {
+        ArrayList<String> params = new ArrayList<>();
+        
+        params.add(String.valueOf(id));
+        
+        Database
+                .getInstance()
+                .executeAction("delete from movie_page where id_movie_page=?"
+                        , params);
+
+    }
     
 }

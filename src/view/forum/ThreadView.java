@@ -9,13 +9,17 @@ import controller.MainController;
 import entity.DiscussionComment;
 import entity.DiscussionThread;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -27,8 +31,8 @@ public class ThreadView extends ScrollPane {
     private ArrayList<DiscussionComment> commentList = new ArrayList<>();
     private DiscussionThread discussionThread;
     private MainController controller;
-    
-    private VBox newCommentArea;
+    private TextArea newCommentTextArea;
+    private Button addComment;
     
     
     public ThreadView(MainController controller) {
@@ -39,35 +43,48 @@ public class ThreadView extends ScrollPane {
         
         this.setContent(null);
         
+        
+
+        setFitToWidth(true);
+
+        
         this.discussionThread = thread;
         
-        commentList = discussionThread.fetchAllComments();
+        commentList = discussionThread.fetchAllComments(false);
         
-        VBox threadVBox = new VBox();
+        GridPane commentBox = new GridPane();
         
-        commentList.forEach(comment -> {
-            VBox commentContainer = new VBox();
-            
+        commentBox.setAlignment(Pos.TOP_CENTER);
+        commentBox.setVgap(10);
+        commentBox.setHgap(10);
+        commentBox.setPadding(new Insets(25, 25, 25, 25));
+        
+        int i = 0;
+        for (DiscussionComment comment : commentList) {
             Label nameLabel = new Label(comment.getAuthorName());
             TextArea textArea = new TextArea();
             textArea.setText(comment.getText());
             textArea.setEditable(false);
-            textArea.setMaxHeight(100);
+            textArea.setMaxHeight(50);
+            textArea.setMaxWidth(250);
             
-            commentContainer.getChildren().addAll(nameLabel, textArea);
+            String dateString = new Date(comment.getCreatedAt().getTime()).toLocaleString();
             
-            threadVBox.getChildren().add(commentContainer);
-        });
+            commentBox.add(new Label(dateString), 0, i);
+            commentBox.add(nameLabel, 1, i);
+            commentBox.add(textArea, 2, i);
+            
+            i++;
+        };
         
         Separator separator = new Separator();
-        separator.setOrientation(Orientation.VERTICAL);
+        separator.setOrientation(Orientation.HORIZONTAL);
         
+        commentBox.add(separator, 0, i, 3, 1);
+        i++;
         
-        newCommentArea = new VBox();
-        TextArea newCommentTextArea = new TextArea();
-        Button addComment = new Button("Přidat komentář");
-        
-        newCommentArea.getChildren().addAll(newCommentTextArea, addComment);
+        newCommentTextArea = new TextArea();
+        addComment = new Button("Přidat komentář");
         
         addComment.setOnAction(e -> {
             
@@ -75,16 +92,21 @@ public class ThreadView extends ScrollPane {
         
             controller.getMainAppView().onForumButtonClick(new ActionEvent());
         
+            controller.alert("Informace", "Komentář byl přidán!", "");
         });
         
-       this.setContent(new VBox(threadVBox, separator, newCommentArea));
+        commentBox.add(newCommentTextArea, 0, i, 3, 1);
+        commentBox.add(addComment, 1, i + 1, 3, 1);
+        
+       this.setContent(commentBox);
        
        prepare();
     }
     
     public void prepare() {
         if (controller.getCurrentUser() == null) {
-            newCommentArea.setVisible(false);
+            newCommentTextArea.setVisible(false);
+            addComment.setVisible(false);
         }
     }
     

@@ -10,6 +10,7 @@ import view.forum.ThreadView;
 import view.moviesite.MovieSiteDetailView;
 import view.moviesite.MovieSiteListView;
 import controller.MainController;
+import entity.DiscussionThread;
 import entity.MovieSite;
 import entity.User;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -36,8 +38,8 @@ import view.user.UserListView;
  */
 public class MainView extends BorderPane {
     
-    private final double width = 750;
-    private final double height = 750;
+    private final double width = 950;
+    private final double height = 550;
     
     private Stage primaryStage;
     private Scene scene;
@@ -90,12 +92,18 @@ public class MainView extends BorderPane {
         movieSiteEditView = new MovieSiteEditView(controller);
         
         scene = new Scene(this, width, height);
+        scene.getStylesheets().add("style/main.css");
         this.primaryStage = controller.getPrimaryStage();
         
         init();
     }
 
     private void init() {
+        sitesButton.setId("ipad-grey");
+        myProfileButton.setId("ipad-grey");
+        forumButton.setId("ipad-grey");
+        usersButton.setId("ipad-grey");
+        logoutButton.setId("ipad-grey");
         
         leftVBox.getChildren().addAll(usernameLabel, sitesButton,
                 myProfileButton, forumButton, usersButton, logoutButton);
@@ -103,7 +111,9 @@ public class MainView extends BorderPane {
         setLeft(leftVBox);
         setCenter(profileView);
         
-        BorderPane.setMargin(leftVBox, new Insets(15, 15, 15, 15));
+        leftVBox.setStyle("-fx-background-color: #14141f;");
+        
+//        BorderPane.setMargin(leftVBox, new Insets(15, 15, 15, 15));
         BorderPane.setMargin(profileView, new Insets(15, 15, 15, 15));
         
         primaryStage.setScene(scene);
@@ -111,11 +121,19 @@ public class MainView extends BorderPane {
         primaryStage.show();
         
         forumButton.setOnAction(this::onForumButtonClick);
+        forumButton.setMaxWidth(Double.MAX_VALUE);
+        
         myProfileButton.setOnAction(this::onProfileButtonClick);
+        myProfileButton.setMaxWidth(Double.MAX_VALUE);
+        
         logoutButton.setOnAction(this::onLogoutClick);
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
+        
         sitesButton.setOnAction(this::onMovieSitesClick);
+        sitesButton.setMaxWidth(Double.MAX_VALUE);
         
         usersButton.setOnAction(this::onUserListViewClick);
+        usersButton.setMaxWidth(Double.MAX_VALUE);
         
         prepare();
     }
@@ -129,6 +147,7 @@ public class MainView extends BorderPane {
         }
         
         usernameLabel.setFont(Font.font("verdana", 14));
+        usernameLabel.setFill(Paint.valueOf("white"));
     }
     
     public void onForumButtonClick(ActionEvent event) {
@@ -137,6 +156,7 @@ public class MainView extends BorderPane {
     }
     
     public void onProfileButtonClick(ActionEvent event) {
+        profileView.init(controller.getCurrentUser());
         setCenter(profileView);
     }
     
@@ -181,6 +201,11 @@ public class MainView extends BorderPane {
     public void onUserListViewClick(ActionEvent event) {
         userListView.init();
         setCenter(userListView);
+    }
+
+    public void threadView(DiscussionThread thread) {
+        threadView.init(thread);
+        setCenter(threadView);
     }
 
 }

@@ -8,6 +8,7 @@ package view.user;
 import controller.MainController;
 import entity.MovieSite;
 import entity.User;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -34,6 +35,8 @@ public class UserDetailView extends GridPane {
     private Label descLabel = new Label("Popis");
     private Label adminLabel = new Label("Admin");
     
+    private Button deleteUserButton = new Button("Smazat uživatele");
+    
     
     public UserDetailView(MainController controller) {
         this.controller = controller;
@@ -55,6 +58,8 @@ public class UserDetailView extends GridPane {
         emailField.setText(user.getEmail());
         descriptionField.setEditable(false);
         descriptionField.setText(user.getProfileDescription());
+        descriptionField.setMaxWidth(250);
+        
         adminBox.setDisable(true);
         adminBox.setSelected(user.isAdmin());
 
@@ -69,6 +74,20 @@ public class UserDetailView extends GridPane {
         
         this.add(adminLabel, 0, 3);
         this.add(adminBox, 1, 3);
+        
+        User currentUser = controller.getCurrentUser();
+        
+        if (currentUser != null) {
+            if (currentUser.isAdmin()) {
+                this.add(deleteUserButton, 1, 4);
+            }
+        }
+        
+        deleteUserButton.setOnAction(e -> {
+            user.delete();
+            
+            controller.getMainAppView().onUserListViewClick(new ActionEvent());
+        });
         
     }
     

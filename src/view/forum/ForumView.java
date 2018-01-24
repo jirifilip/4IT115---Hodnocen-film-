@@ -71,10 +71,12 @@ public class ForumView extends VBox {
             btn.setOnAction(e -> {
                 System.out.println("blabla");
                 
-                ThreadView threadView = controller.getMainAppView().getThreadView();
+//                ThreadView threadView = controller.getMainAppView().getThreadView();
                 
-                threadView.init(thread);
-                controller.getMainAppView().setCenter(threadView);
+                controller.getMainAppView().threadView(thread);
+                
+//                threadView.init(thread);
+//                controller.getMainAppView().setCenter(threadView);
             });
             
             threadVBox.getChildren().add(btn);

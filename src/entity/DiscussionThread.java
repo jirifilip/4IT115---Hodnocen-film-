@@ -32,7 +32,7 @@ public class DiscussionThread extends Model {
         this.title = title;
         this.createdAt = createdAt;
         
-        fetchAllComments();
+        fetchAllComments(false);
         
         for (DiscussionComment comment : discussionCommentsList) {
             System.out.println(comment.getText());
@@ -58,8 +58,8 @@ public class DiscussionThread extends Model {
     }
     
     
-    public ArrayList<DiscussionComment> fetchAllComments() {
-        if (!discussionCommentsList.isEmpty()) {
+    public ArrayList<DiscussionComment> fetchAllComments(boolean cached) {
+        if (!discussionCommentsList.isEmpty() && cached) {
             return discussionCommentsList;
         }
         

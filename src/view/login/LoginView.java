@@ -51,6 +51,7 @@ public class LoginView extends GridPane {
     
     public LoginView(MainController controller) {
         scene = new Scene(this, width, height);
+        scene.getStylesheets().add("style/main.css");
         
         this.controller = controller;
         
@@ -61,6 +62,8 @@ public class LoginView extends GridPane {
         setVgap(10);
         setHgap(10);
         setPadding(new Insets(25, 25, 25, 25));
+        
+        setStyle("-fx-background: black;");
         
         init();
     }
@@ -91,7 +94,11 @@ public class LoginView extends GridPane {
         loginButton.setOnAction(this::onLoginButtonClick);
         registerButton.setOnAction(e -> controller.registerView());
         
-        withoutLoginButton.setOnAction(e -> controller.mainView());
+        withoutLoginButton.setOnAction(e -> {
+            controller.mainView();
+            controller.alert("Informace", "Vstup do aplikace",
+                    "Pro plnou funkčnost aplikace se prosím registrujte nebo přihlašte!");
+        });
 
     }
     

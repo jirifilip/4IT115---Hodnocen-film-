@@ -66,6 +66,8 @@ public class MovieSiteAddView extends GridPane {
         setHgap(10);
         setPadding(new Insets(25, 25, 25, 25));
         
+        descriptionField.setMaxWidth(250);
+        
         add(titleLabel, 0, 0);
         add(titleField, 1, 0);
         

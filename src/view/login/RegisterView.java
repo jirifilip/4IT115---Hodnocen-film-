@@ -61,6 +61,7 @@ public class RegisterView extends GridPane {
         this.controller = controller;
         
         scene = new Scene(this, width, height);
+        scene.getStylesheets().add("style/main.css");
         this.primaryStage = controller.getPrimaryStage();
         
         init();
@@ -112,6 +113,10 @@ public class RegisterView extends GridPane {
         
         if (!(username.isEmpty() || email.isEmpty() || password.isEmpty())) {
             User user = new User(username, email, password);
+            controller.setCurrentUser(user);
+            
+            controller.alert("Oznámení", "Registrace dokončena", 
+                        "Vítejte v aplikaci!");
         }
         
         controller.mainView();

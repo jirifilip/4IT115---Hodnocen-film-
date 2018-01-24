@@ -21,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 /**
@@ -52,7 +53,20 @@ public class MovieSiteListView extends GridPane {
         
         ArrayList<MovieSite> movies = MovieSite.fetchAll();
         
-        int i = 0;
+        Text nameHeader = new Text("Jméno stránky");
+        Text urlHeader = new Text("URL");
+        Text ratingHeader = new Text("Hodnocení uživatelů");
+        
+        nameHeader.setFill(Paint.valueOf("white"));
+        urlHeader.setFill(Paint.valueOf("white"));
+        ratingHeader.setFill(Paint.valueOf("white"));
+        
+        add(nameHeader, 0, 0);
+        add(urlHeader, 1, 0);
+        add(ratingHeader, 2, 0);
+        
+        
+        int i = 1;
         
         for (MovieSite movie : movies) {
             FlowPane movieDetailContainer = new FlowPane();
@@ -60,21 +74,30 @@ public class MovieSiteListView extends GridPane {
             Button btn =  new Button(movie.getName());
             
             Text pageName = new Text(movie.getName());
-            Text urlText = new Text(movie.getUrl());
-            Text addIntensityText = new Text(String.valueOf(movie.getAddsIntensity()));
+            pageName.setFill(Paint.valueOf("white"));
             
-            pageName.setOnMouseClicked(e -> {
+            Text urlText = new Text(movie.getUrl());
+            urlText.setFill(Paint.valueOf("white"));
+            
+            Text ratingText = new Text(String.valueOf(movie.getRating()));
+            ratingText.setFill(Paint.valueOf("white"));
+            
+            Button goToPageButton = new Button("Přejít na detail");
+            
+            goToPageButton.setOnMouseClicked(e -> {
                 controller.getMainAppView().moviePageDetailView(movie);
             });
             
             add(pageName, 0, i);
             add(urlText, 1, i);
-            add(addIntensityText, 2, i);
+            add(ratingText, 2, i);
+            add(goToPageButton, 3, i);
+                    
             
             i++;
         };
         
-        add(addMoviePageButton, 0, i, 3, 1);
+        add(addMoviePageButton, 0, i, 4, 1);
         
         
         
