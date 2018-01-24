@@ -8,6 +8,7 @@ package view.forum;
 import controller.MainController;
 import entity.DiscussionComment;
 import entity.DiscussionThread;
+import entity.User;
 import java.util.ArrayList;
 import java.util.Date;
 import javafx.event.ActionEvent;
@@ -34,6 +35,8 @@ public class ThreadView extends ScrollPane {
     private TextArea newCommentTextArea;
     private Button addComment;
     
+    private Button deleteThread = new Button("Smaž vlákno");
+    
     
     public ThreadView(MainController controller) {
         this.controller = controller;
@@ -59,7 +62,22 @@ public class ThreadView extends ScrollPane {
         commentBox.setHgap(10);
         commentBox.setPadding(new Insets(25, 25, 25, 25));
         
-        int i = 0;
+        User user = controller.getCurrentUser();
+        if (user != null) {
+            if (user.isAdmin()) {
+                commentBox.add(deleteThread, 0, 0);
+            }
+        }
+        
+        deleteThread.setOnAction(e -> {
+            thread.delete();
+            
+            controller.getMainAppView().onForumButtonClick(new ActionEvent());
+            
+            controller.alert("Informace", "Vlákno bylo smazáno!", "");
+        });
+        
+        int i = 1;
         for (DiscussionComment comment : commentList) {
             Label nameLabel = new Label(comment.getAuthorName());
             TextArea textArea = new TextArea();

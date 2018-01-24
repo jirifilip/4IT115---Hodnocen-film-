@@ -69,6 +69,8 @@ public class MovieSiteDetailView extends GridPane {
     public void init(MovieSite moviePage) {
         getChildren().clear();
         
+        User user = controller.getCurrentUser();
+        
         descriptionField.setMaxWidth(250);
         titleField.setText(moviePage.getName());
         descriptionField.setEditable(false);
@@ -116,7 +118,12 @@ public class MovieSiteDetailView extends GridPane {
             this.add(goodRatingButton, 1, 8);
         }
         
-        this.add(editMovieSiteButton, 1, 9);
+        if (user != null) {
+            if (user.isAdmin()) {
+               this.add(editMovieSiteButton, 1, 9); 
+            }
+        }
+        
         
         
         editMovieSiteButton.setOnAction(e -> {

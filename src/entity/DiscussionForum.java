@@ -24,7 +24,7 @@ public class DiscussionForum extends Model {
     }
 
     public ArrayList<DiscussionThread> getDiscussionThreadsList() {
-        return discussionThreadsList;
+        return DiscussionThread.fetchAll();
     }
 
     public void setDiscussionThreadsList(ArrayList<DiscussionThread> discussionThreadsList) {

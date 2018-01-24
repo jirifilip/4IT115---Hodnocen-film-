@@ -34,9 +34,6 @@ public class DiscussionThread extends Model {
         
         fetchAllComments(false);
         
-        for (DiscussionComment comment : discussionCommentsList) {
-            System.out.println(comment.getText());
-        }
     }
 
     public DiscussionThread(String title) {
@@ -62,6 +59,7 @@ public class DiscussionThread extends Model {
         if (!discussionCommentsList.isEmpty() && cached) {
             return discussionCommentsList;
         }
+        discussionCommentsList.clear();
         
         try (Connection conn = Database.getConnection()){
             PreparedStatement statement = null;
@@ -150,6 +148,18 @@ public class DiscussionThread extends Model {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void delete() {
+        ArrayList<String> params = new ArrayList<>();
+        
+        params.add(String.valueOf(id));
+        
+        Database
+                .getInstance()
+                .executeAction("delete from discussion_thread where id_discussion_thread=?"
+                        , params);
+
     }
     
     

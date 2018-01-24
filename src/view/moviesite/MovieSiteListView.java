@@ -31,7 +31,7 @@ import javafx.scene.text.Text;
 public class MovieSiteListView extends GridPane {
     
     private MainController controller;
-    private Button addMoviePageButton = new Button("Přidej novou filmovou stranu");
+    private Button addMoviePageButton = new Button("Přidej novou filmovou stránku");
     
     public MovieSiteListView(MainController controller) {
         this.controller = controller;
@@ -65,8 +65,13 @@ public class MovieSiteListView extends GridPane {
         add(urlHeader, 1, 0);
         add(ratingHeader, 2, 0);
         
+        Separator separator = new Separator();
+        separator.setOrientation(Orientation.HORIZONTAL);
+        separator.setStyle("-fx-background-color: white; -fx-fill: white");
         
-        int i = 1;
+        add(separator, 0, 1, 4, 1);
+        
+        int i = 2;
         
         for (MovieSite movie : movies) {
             FlowPane movieDetailContainer = new FlowPane();

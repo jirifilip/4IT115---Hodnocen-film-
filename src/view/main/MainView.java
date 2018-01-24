@@ -15,9 +15,11 @@ import entity.MovieSite;
 import entity.User;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -26,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import view.forum.ThreadAddView;
 import view.moviesite.MovieSiteAddView;
 import view.moviesite.MovieSiteEditView;
 import view.user.ProfileSettingView;
@@ -66,6 +69,7 @@ public class MainView extends BorderPane {
     
     private ForumView forumView;
     private ThreadView threadView;
+    private ThreadAddView threadAddView;
     
     private MovieSiteListView movieListView;
     private MovieSiteAddView addMovieSiteView;
@@ -90,6 +94,7 @@ public class MainView extends BorderPane {
         addMovieSiteView = new MovieSiteAddView(controller);
         movieSiteDetailView = new MovieSiteDetailView(controller);
         movieSiteEditView = new MovieSiteEditView(controller);
+        threadAddView = new ThreadAddView(controller);
         
         scene = new Scene(this, width, height);
         scene.getStylesheets().add("style/main.css");
@@ -105,7 +110,13 @@ public class MainView extends BorderPane {
         usersButton.setId("ipad-grey");
         logoutButton.setId("ipad-grey");
         
-        leftVBox.getChildren().addAll(usernameLabel, sitesButton,
+        usernameLabel.setFont(Font.font("verdana", 18));
+        
+        Separator separator = new Separator();
+        separator.setOrientation(Orientation.HORIZONTAL);
+        separator.setStyle("-fx-background-color: white; -fx-fill: white");
+        
+        leftVBox.getChildren().addAll(usernameLabel, separator, sitesButton,
                 myProfileButton, forumButton, usersButton, logoutButton);
         
         setLeft(leftVBox);
@@ -206,6 +217,10 @@ public class MainView extends BorderPane {
     public void threadView(DiscussionThread thread) {
         threadView.init(thread);
         setCenter(threadView);
+    }
+
+    public void newThreadView() {
+        setCenter(threadAddView);
     }
 
 }
