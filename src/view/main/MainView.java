@@ -13,12 +13,16 @@ import controller.MainController;
 import entity.MovieSite;
 import entity.User;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.moviesite.MovieSiteAddView;
 import view.moviesite.MovieSiteEditView;
@@ -44,15 +48,15 @@ public class MainView extends BorderPane {
     
     private VBox leftVBox = new VBox();
     
-    private Label usernameLabel = new Label("Username");
+    private Text usernameLabel = new Text("Nepřihlášený uživatel");
     
     private TextField searchTextField = new TextField();
     
-    private Button sitesButton = new Button("Sites");
-    private Button myProfileButton = new Button("My Profile");
-    private Button forumButton = new Button("Forum");
+    private Button sitesButton = new Button("Filmové stránky");
+    private Button myProfileButton = new Button("Můj profil");
+    private Button forumButton = new Button("Diskuzní fórum");
     private Button usersButton = new Button("Uživatelé");
-    private Button logoutButton = new Button("Log out");   
+    private Button logoutButton = new Button("Odhlásit se");   
     
     private UserListView userListView;
     private UserDetailView userDetailView;
@@ -93,11 +97,14 @@ public class MainView extends BorderPane {
 
     private void init() {
         
-        leftVBox.getChildren().addAll(usernameLabel, searchTextField, sitesButton,
+        leftVBox.getChildren().addAll(usernameLabel, sitesButton,
                 myProfileButton, forumButton, usersButton, logoutButton);
         
         setLeft(leftVBox);
         setCenter(profileView);
+        
+        BorderPane.setMargin(leftVBox, new Insets(15, 15, 15, 15));
+        BorderPane.setMargin(profileView, new Insets(15, 15, 15, 15));
         
         primaryStage.setScene(scene);
         
@@ -109,6 +116,19 @@ public class MainView extends BorderPane {
         sitesButton.setOnAction(this::onMovieSitesClick);
         
         usersButton.setOnAction(this::onUserListViewClick);
+        
+        prepare();
+    }
+    
+    public void prepare() {
+        if (controller.getCurrentUser() == null) {
+            logoutButton.setText("Zpět k přihlášení");
+            leftVBox.getChildren().remove(myProfileButton);
+        } else {
+            usernameLabel.setText(controller.getCurrentUser().getUsername());
+        }
+        
+        usernameLabel.setFont(Font.font("verdana", 14));
     }
     
     public void onForumButtonClick(ActionEvent event) {

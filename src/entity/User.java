@@ -217,7 +217,9 @@ public class User extends Model {
     }
     
     
-    
+    public boolean isAdmin() {
+        return this.admin.equals("1");
+    }
     
     
     

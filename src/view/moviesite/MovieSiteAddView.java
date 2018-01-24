@@ -61,7 +61,7 @@ public class MovieSiteAddView extends GridPane {
     public void init() {
         this.getChildren().clear();
         
-        setAlignment(Pos.CENTER);
+        setAlignment(Pos.TOP_CENTER);
         setVgap(10);
         setHgap(10);
         setPadding(new Insets(25, 25, 25, 25));

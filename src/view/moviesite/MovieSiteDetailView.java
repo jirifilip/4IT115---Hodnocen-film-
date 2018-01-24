@@ -49,7 +49,7 @@ public class MovieSiteDetailView extends GridPane {
     public MovieSiteDetailView(MainController controller) {
         this.controller = controller;
         
-        this.setAlignment(Pos.CENTER);
+        this.setAlignment(Pos.TOP_CENTER);
         this.setVgap(10);
         this.setHgap(10);
         this.setPadding(new Insets(25, 25, 25, 25));
@@ -105,7 +105,4 @@ public class MovieSiteDetailView extends GridPane {
         
     }
 
-    public void init(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

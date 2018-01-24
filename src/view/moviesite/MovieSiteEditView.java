@@ -49,7 +49,7 @@ public class MovieSiteEditView extends GridPane {
     public MovieSiteEditView(MainController controller) {
         this.controller = controller;
         
-        setAlignment(Pos.CENTER);
+        setAlignment(Pos.TOP_CENTER);
         setVgap(10);
         setHgap(10);
         setPadding(new Insets(25, 25, 25, 25));

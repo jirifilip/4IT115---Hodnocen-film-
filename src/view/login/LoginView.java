@@ -15,12 +15,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import entity.User;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.PasswordField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 /**
  *
  * @author Jirka_
  */
-public class LoginView extends VBox {
+public class LoginView extends GridPane {
 
     private final double width = 500;
     private final double height = 500;
@@ -31,13 +37,17 @@ public class LoginView extends VBox {
     private MainController controller;
     
     // komponenty
-    private Label loginLabel = new Label("Login");
-    private TextField usernameTextField = new TextField();
-    private PasswordField passwordTextField = new PasswordField();
-    private Button loginButton = new Button("Login");
-    private Button registerButton = new Button("Register");
-    private Button lostPasswordButton = new Button("Lost Password");
+    private Text applicationLogo = new Text("Stream Tracker");
     
+    private Label loginLabel = new Label("Přihlašovací jméno");
+    private TextField usernameTextField = new TextField();
+    
+    private Label passwordLabel = new Label("Heslo");
+    private PasswordField passwordTextField = new PasswordField();
+    
+    private Button loginButton = new Button("Přihlásit se");
+    private Button registerButton = new Button("Registrovat se");
+    private Button withoutLoginButton = new Button("Pokračovat bez přihlášení");
     
     public LoginView(MainController controller) {
         scene = new Scene(this, width, height);
@@ -46,13 +56,32 @@ public class LoginView extends VBox {
         
         this.primaryStage = this.controller.getPrimaryStage();
         
+        
+        setAlignment(Pos.CENTER);
+        setVgap(10);
+        setHgap(10);
+        setPadding(new Insets(25, 25, 25, 25));
+        
         init();
     }
 
     public void init() {
-        this.getChildren().addAll(loginLabel, usernameTextField, passwordTextField,
-                loginButton, registerButton, lostPasswordButton);
+
+        applicationLogo.setFont(Font.font ("Verdana", 40));
+        applicationLogo.setFill(Color.GRAY);
         
+        add(applicationLogo, 0, 0, 2, 1);
+        
+        add(loginLabel, 0, 1);
+        add(usernameTextField, 1, 1);
+        
+        add(passwordLabel, 0, 2);
+        add(passwordTextField, 1, 2);
+        
+        add(loginButton, 1, 3);
+        add(registerButton, 1, 4);
+        add(withoutLoginButton, 1, 5);
+       
         
         primaryStage.setScene(scene);
         
@@ -61,6 +90,8 @@ public class LoginView extends VBox {
         
         loginButton.setOnAction(this::onLoginButtonClick);
         registerButton.setOnAction(e -> controller.registerView());
+        
+        withoutLoginButton.setOnAction(e -> controller.mainView());
 
     }
     

@@ -28,6 +28,8 @@ public class ThreadView extends ScrollPane {
     private DiscussionThread discussionThread;
     private MainController controller;
     
+    private VBox newCommentArea;
+    
     
     public ThreadView(MainController controller) {
         this.controller = controller;
@@ -35,7 +37,7 @@ public class ThreadView extends ScrollPane {
     
     public void init(DiscussionThread thread) {
         
-        this.getChildren().clear();
+        this.setContent(null);
         
         this.discussionThread = thread;
         
@@ -61,14 +63,13 @@ public class ThreadView extends ScrollPane {
         separator.setOrientation(Orientation.VERTICAL);
         
         
-        VBox newCommentArea = new VBox();
+        newCommentArea = new VBox();
         TextArea newCommentTextArea = new TextArea();
         Button addComment = new Button("Přidat komentář");
         
         newCommentArea.getChildren().addAll(newCommentTextArea, addComment);
         
         addComment.setOnAction(e -> {
-            System.out.println("Komentář!");
             
             new DiscussionComment(thread.getId(), controller.getCurrentUser().getId(), newCommentTextArea.getText());
         
@@ -76,8 +77,15 @@ public class ThreadView extends ScrollPane {
         
         });
         
-        
-        this.setContent(new VBox(threadVBox, separator, newCommentArea));
+       this.setContent(new VBox(threadVBox, separator, newCommentArea));
+       
+       prepare();
+    }
+    
+    public void prepare() {
+        if (controller.getCurrentUser() == null) {
+            newCommentArea.setVisible(false);
+        }
     }
     
 }
