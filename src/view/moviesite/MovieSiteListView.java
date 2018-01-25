@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import main.MoviePagesRating;
 
 /**
  *
@@ -95,6 +96,7 @@ public class MovieSiteListView extends ScrollPane {
             pageName.setFill(Paint.valueOf("white"));
             
             Text urlText = new Text(movie.getUrl());
+            urlText.setOnMouseClicked(e -> MoviePagesRating.openWebpage(urlText.getText()));
             urlText.setFill(Paint.valueOf("white"));
             
             Text ratingText = new Text(String.valueOf(movie.getRating()));

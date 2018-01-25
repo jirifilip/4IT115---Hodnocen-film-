@@ -31,7 +31,7 @@ public class MainController {
     private MainView mainAppView;
     
     
-    public void alert(String title, String headerText, String contentText) {
+    public static void alert(String title, String headerText, String contentText) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(headerText);

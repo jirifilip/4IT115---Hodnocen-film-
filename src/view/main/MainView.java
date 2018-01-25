@@ -190,6 +190,7 @@ public class MainView extends BorderPane {
     
     public void searchMovies() {
         movieListView.init();
+        movieListView.init();
         setCenter(movieListView);
     }
     

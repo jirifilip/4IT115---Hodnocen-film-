@@ -103,6 +103,7 @@ public class ForumView extends ScrollPane {
             grid.add(dateLabel, 0, i);
             grid.add(threadLabel, 1, i);
             grid.add(btn, 2, i);
+            i++;
         };
         
         

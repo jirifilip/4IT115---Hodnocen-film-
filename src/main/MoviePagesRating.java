@@ -11,7 +11,10 @@ import entity.DiscussionComment;
 import entity.DiscussionForum;
 import entity.DiscussionThread;
 import entity.MovieSite;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -63,9 +66,10 @@ public class MoviePagesRating extends Application {
     
     public static void openWebpage(String url) {
         try {
-            new ProcessBuilder("x-www-browser", url).start();
-        } catch (IOException e) {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (Exception e) {
             e.printStackTrace();
+            MainController.alert("Chyba", "", "Toto není správně zadaná webová adresa");
         }
     }
     
