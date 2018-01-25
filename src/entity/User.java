@@ -67,6 +67,8 @@ public class User extends Model {
             .executeAction(
                     "insert into user(username, email, password, registered_at)"
                     + "values(?, ?, ?, ?)" , paramList);
+        
+        this.admin = "0";
     }
     
     public static User fetchUser(String username, String password) {
@@ -111,6 +113,43 @@ public class User extends Model {
         }
         
         return user;
+    }
+    
+    public void reload() {
+        PreparedStatement statement = null;
+
+        try (Connection connection = Database.getConnection()){
+            ResultSet rs = null;
+            
+            statement = connection.prepareStatement(
+                "SELECT * FROM user where id_user=?"
+            );
+            
+            statement.setString(1, String.valueOf(id));
+            
+            rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                this.profileDescription = rs.getString(5);
+                this.profilePhotoUrl = rs.getString(6);
+                this.registrationDate = rs.getString(7);
+                this.registrationDate = rs.getString(8);
+                this.admin = rs.getString(9);
+                
+                System.out.println(rs.getString(9));
+                
+            }
+            
+            System.out.println("Reloaded");
+            System.out.println(this.admin);
+
+            rs.close();
+                
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void update() {

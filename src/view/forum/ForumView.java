@@ -61,16 +61,21 @@ public class ForumView extends GridPane {
         
         ArrayList<DiscussionThread> discussionThreadsList = controller.getForum().getDiscussionThreadsList();
         
-        add(new Label("Datum"), 0, 0);
-        add(new Label("Název tématu"), 1, 0);
+        
+        if (controller.isCurrentUserAdmin()) {
+            this.add(newThreadButton, 0, 0, 3, 1);
+        }
+        
+        add(new Label("Datum"), 0, 2);
+        add(new Label("Název tématu"), 1, 2);
 
         Separator separator = new Separator();
         separator.setOrientation(Orientation.HORIZONTAL);
         separator.setStyle("-fx-background-color: white; -fx-fill: white");
         
-        add(separator, 0, 1, 3, 1);
+        add(separator, 0, 3, 3, 1);
         
-        int i = 2;
+        int i = 4;
         for (DiscussionThread thread : discussionThreadsList) {
             String dateString = new Date(thread.getCreatedAt().getTime()).toLocaleString();
             Label dateLabel = new Label(dateString);
@@ -92,12 +97,7 @@ public class ForumView extends GridPane {
             controller.getMainAppView().newThreadView();
         });
         
-        User user = controller.getCurrentUser();
-        if (user != null) {
-            if (user.isAdmin()) {
-                this.getChildren().add(newThreadButton);
-            }
-        }
+        
         
         
         

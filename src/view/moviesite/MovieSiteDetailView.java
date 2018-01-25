@@ -9,8 +9,10 @@ import component.NumberTextField;
 import controller.MainController;
 import entity.MovieSite;
 import entity.User;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -155,6 +157,7 @@ public class MovieSiteDetailView extends GridPane {
                         "Už jste jednou pro film hlasoval/a");
             }
         });
+        
         
     }
 

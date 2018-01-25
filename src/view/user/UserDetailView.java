@@ -36,6 +36,7 @@ public class UserDetailView extends GridPane {
     private Label adminLabel = new Label("Admin");
     
     private Button deleteUserButton = new Button("Smazat uživatele");
+    private Button makeAdminButton = new Button("Povyš na admina");
     
     
     public UserDetailView(MainController controller) {
@@ -77,14 +78,22 @@ public class UserDetailView extends GridPane {
         
         User currentUser = controller.getCurrentUser();
         
-        if (currentUser != null) {
-            if (currentUser.isAdmin()) {
-                this.add(deleteUserButton, 1, 4);
-            }
+        if (controller.isCurrentUserAdmin()) {
+            this.add(deleteUserButton, 1, 4);
+            this.add(makeAdminButton, 1, 5);
         }
         
         deleteUserButton.setOnAction(e -> {
             user.delete();
+            
+            controller.getMainAppView().onUserListViewClick(new ActionEvent());
+        });
+        
+        makeAdminButton.setOnAction(e -> {
+            user.setAdmin(true);
+            user.update();
+            
+            controller.alert("Informace", "", "Z uživatele " + user.getUsername() + " se stal admin.");
             
             controller.getMainAppView().onUserListViewClick(new ActionEvent());
         });

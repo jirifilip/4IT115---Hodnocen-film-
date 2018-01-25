@@ -45,6 +45,16 @@ public class MainController {
         
     }
     
+    public boolean isCurrentUserAdmin() {
+        if (currentUser != null) {
+            if (currentUser.isAdmin()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     public void start() {
         
     }

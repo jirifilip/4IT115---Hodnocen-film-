@@ -114,12 +114,17 @@ public class RegisterView extends GridPane {
         if (!(username.isEmpty() || email.isEmpty() || password.isEmpty())) {
             User user = new User(username, email, password);
             controller.setCurrentUser(user);
+            user.reload();
             
             controller.alert("Oznámení", "Registrace dokončena", 
                         "Vítejte v aplikaci!");
+            
+            controller.mainView();
+            
+            
         }
         
-        controller.mainView();
+        
     }
     
 }
