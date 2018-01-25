@@ -104,9 +104,17 @@ public class MovieSiteAddView extends GridPane {
             boolean shows = includesShowsBox.isSelected();
             boolean login = requiresLoginBox.isSelected();
             
-            new MovieSite(name, desc, url, addIntensity, movies, shows, login);
+            if (!name.matches("[A-Za-z0-9]{4,}")&& !url.matches("www\\.[a-z0-9A-Z]\\.[a-z]+")) {
+                new MovieSite(name, desc, url, addIntensity, movies, shows, login);
+                
+                controller.getMainAppView().onMovieSitesClick(new ActionEvent());
+            } else {
+                controller.alert("Chyba", "", "Vyplňte alespoň název (alespoň 4 znaky) a url stránky (ve tvaru www.[jméno].[doména]!");
+            }
             
-            controller.getMainAppView().onMovieSitesClick(new ActionEvent());
+            
+            
+            
        });
     }
     

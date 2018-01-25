@@ -8,6 +8,10 @@ package view.user;
 import controller.MainController;
 import entity.MovieSite;
 import entity.User;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -43,6 +49,13 @@ public class ProfileSettingView extends GridPane {
     private Label adminLabel = new Label("Admin");
     private Label passwordLabel = new Label("Nové heslo");
     private Label confirmPasswordLabel = new Label("Potvrďte heslo");
+    
+    
+    private Label pictureNameLabel = new Label("[...]");
+    
+    private FileChooser fileChooser = new FileChooser();
+    private Button openFileButton = new Button("Zvol profilovou fotku...");
+    private File profilePicture;
     
     
     private Button saveButton = new Button("Uložit nastavení");
@@ -82,14 +95,24 @@ public class ProfileSettingView extends GridPane {
         this.add(confirmPasswordLabel, 0, 4);
         this.add(confirmPasswordField, 1, 4);
         
+        this.add(pictureNameLabel, 0, 5);
+        this.add(openFileButton, 1, 5);
+        
         if (controller.getCurrentUser().isAdmin()) {
             adminBox.setSelected(user.isAdmin());
         
-            this.add(adminLabel, 0, 5);
-            this.add(adminBox, 1, 5);
+            this.add(adminLabel, 0, 6);
+            this.add(adminBox, 1, 6);
         }
         
-        this.add(saveButton, 1, 6);
+        this.add(saveButton, 1, 7);
+        
+        openFileButton.setOnAction(e -> {
+            profilePicture = fileChooser.showOpenDialog(new Stage());
+            if (profilePicture != null) {
+                pictureNameLabel.setText(profilePicture.getName());
+            }
+        });
         
         saveButton.setOnAction(e -> {
             String name = nameField.getText();
@@ -104,9 +127,26 @@ public class ProfileSettingView extends GridPane {
             String newPassword = newPasswordField.getText();
             String confirmPassword = confirmPasswordField.getText();
             
+            String currentDir = System.getProperty("user.dir");
+            
+            try {
+                if (profilePicture != null) {
+                    Path sourcePath = profilePicture.toPath();
+                    String destPath = currentDir + "/src/resources/" + user.getUsername() + ".jpg";
+                    Files.copy(sourcePath, new File(destPath).toPath(),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            
+            
             if (!newPassword.isEmpty()) {
                 if (newPassword.equals(confirmPassword)) {
                     user.setPassword(newPassword);
+                } else {
+                    controller.alert("Chyba", "Hesla se ti nerovnají, šéfe!", "");
                 }
             }
             

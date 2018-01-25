@@ -9,6 +9,7 @@ import component.NumberTextField;
 import controller.MainController;
 import entity.MovieSite;
 import entity.User;
+import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -42,6 +45,12 @@ public class MovieSiteEditView extends GridPane {
     private Label moviesLabel = new Label("Obsahuje filmy");
     private Label showsLabel = new Label("Obsahuje seriály");
     private Label loginLabel = new Label("Vyžaduje přihlášení");
+    
+    private Label pictureNameLabel = new Label("[...]");
+    
+    private FileChooser fileChooser = new FileChooser();
+    private Button openFileButton = new Button("Zvol profilovou fotku...");
+    private File profilePicture;
     
     
     private Button saveMovieSiteButton = new Button("Uprav stránku");
@@ -96,8 +105,10 @@ public class MovieSiteEditView extends GridPane {
         add(loginLabel, 0, 6);
         add(requiresLoginBox, 1, 6);
         
+        add(pictureNameLabel, 0, 7);
+        add(openFileButton, 1, 7);
         
-        add(saveMovieSiteButton, 1, 7);
+        add(saveMovieSiteButton, 1, 8);
         
         User user = controller.getCurrentUser();
         if (user != null) {
@@ -110,6 +121,13 @@ public class MovieSiteEditView extends GridPane {
             movieSite.delete();
             
             controller.getMainAppView().onMovieSitesClick(new ActionEvent());
+        });
+        
+        openFileButton.setOnAction(e -> {
+            profilePicture = fileChooser.showOpenDialog(new Stage());
+            if (profilePicture != null) {
+                pictureNameLabel.setText(profilePicture.getName());
+            }
         });
         
         saveMovieSiteButton.setOnAction(e -> {

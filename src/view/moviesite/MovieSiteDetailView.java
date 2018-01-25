@@ -18,6 +18,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
@@ -26,9 +27,11 @@ import javafx.scene.text.Text;
  *
  * @author Jirka_
  */
-public class MovieSiteDetailView extends GridPane {
+public class MovieSiteDetailView extends ScrollPane {
     
     private MainController controller;
+    
+    private GridPane grid = new GridPane();
     
     private Label titleField = new Label();
     private TextArea descriptionField = new TextArea();
@@ -58,10 +61,10 @@ public class MovieSiteDetailView extends GridPane {
     public MovieSiteDetailView(MainController controller) {
         this.controller = controller;
         
-        this.setAlignment(Pos.TOP_CENTER);
-        this.setVgap(10);
-        this.setHgap(10);
-        this.setPadding(new Insets(25, 25, 25, 25));
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
     }
     
@@ -69,7 +72,9 @@ public class MovieSiteDetailView extends GridPane {
     
     
     public void init(MovieSite moviePage) {
-        getChildren().clear();
+        setContent(null);
+        setFitToWidth(true);
+        grid.getChildren().clear();
         
         User user = controller.getCurrentUser();
         
@@ -91,38 +96,38 @@ public class MovieSiteDetailView extends GridPane {
         ratingText.setText(String.valueOf(ratingValue));
         ratingText.setFill(Paint.valueOf("white"));
         
-        this.add(titleLabel, 0, 0);
-        this.add(titleField, 1, 0);
+        grid.add(titleLabel, 0, 0);
+        grid.add(titleField, 1, 0);
         
-        this.add(descLabel, 0, 1);
-        this.add(descriptionField, 1, 1);
+        grid.add(descLabel, 0, 1);
+        grid.add(descriptionField, 1, 1);
         
-        this.add(urlLabel, 0, 2);
-        this.add(urlField, 1, 2);
+        grid.add(urlLabel, 0, 2);
+        grid.add(urlField, 1, 2);
         
-        this.add(addLabel, 0, 3);
-        this.add(addIntensityBox, 1, 3);
+        grid.add(addLabel, 0, 3);
+        grid.add(addIntensityBox, 1, 3);
         
-        this.add(moviesLabel, 0, 4);
-        this.add(includesMoviesBox, 1, 4);
+        grid.add(moviesLabel, 0, 4);
+        grid.add(includesMoviesBox, 1, 4);
         
-        this.add(showsLabel, 0, 5);
-        this.add(includesShowsBox, 1, 5);
+        grid.add(showsLabel, 0, 5);
+        grid.add(includesShowsBox, 1, 5);
         
-        this.add(loginLabel, 0, 6);
-        this.add(requiresLoginBox, 1, 6);
+        grid.add(loginLabel, 0, 6);
+        grid.add(requiresLoginBox, 1, 6);
         
-        this.add(new Label("Hodnocení"), 0, 7);
-        this.add(ratingText, 1, 7);
+        grid.add(new Label("Hodnocení"), 0, 7);
+        grid.add(ratingText, 1, 7);
         
         if (controller.getCurrentUser() != null) {
-            this.add(badRatingButton, 0, 8);
-            this.add(goodRatingButton, 1, 8);
+            grid.add(badRatingButton, 0, 8);
+            grid.add(goodRatingButton, 1, 8);
         }
         
         if (user != null) {
             if (user.isAdmin()) {
-               this.add(editMovieSiteButton, 1, 9); 
+               grid.add(editMovieSiteButton, 1, 9); 
             }
         }
         
@@ -158,7 +163,7 @@ public class MovieSiteDetailView extends GridPane {
             }
         });
         
-        
+        setContent(grid);
     }
 
 }

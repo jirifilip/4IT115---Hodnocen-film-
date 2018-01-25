@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,7 +31,9 @@ import javafx.stage.Stage;
  *
  * @author Jirka_
  */
-public class ForumView extends GridPane {
+public class ForumView extends ScrollPane {
+    
+    private GridPane grid = new GridPane();
     
     private final double width = 500;
     private final double height = 500;
@@ -48,10 +51,10 @@ public class ForumView extends GridPane {
     public ForumView(MainController controller) {
         this.controller = controller;
         
-        this.setAlignment(Pos.TOP_CENTER);
-        this.setVgap(10);
-        this.setHgap(10);
-        this.setPadding(new Insets(25, 25, 25, 25));
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
         
         
         init();
@@ -59,7 +62,10 @@ public class ForumView extends GridPane {
     
 
     public void init() {
-        this.getChildren().clear();
+        setContent(null);
+        setFitToWidth(true);
+        
+        grid.getChildren().clear();
         
         ArrayList<DiscussionThread> discussionThreadsList;
         if (threadCache == null) {
@@ -70,17 +76,17 @@ public class ForumView extends GridPane {
         
         
         if (controller.isCurrentUserAdmin()) {
-            this.add(newThreadButton, 0, 0, 3, 1);
+            grid.add(newThreadButton, 0, 0, 3, 1);
         }
         
-        add(new Label("Datum"), 0, 2);
-        add(new Label("Název tématu"), 1, 2);
+        grid.add(new Label("Datum"), 0, 2);
+        grid.add(new Label("Název tématu"), 1, 2);
 
         Separator separator = new Separator();
         separator.setOrientation(Orientation.HORIZONTAL);
         separator.setStyle("-fx-background-color: white; -fx-fill: white");
         
-        add(separator, 0, 3, 3, 1);
+        grid.add(separator, 0, 3, 3, 1);
         
         int i = 4;
         for (DiscussionThread thread : discussionThreadsList) {
@@ -94,9 +100,9 @@ public class ForumView extends GridPane {
                 controller.getMainAppView().threadView(thread);
             });
             
-            add(dateLabel, 0, i);
-            add(threadLabel, 1, i);
-            add(btn, 2, i);
+            grid.add(dateLabel, 0, i);
+            grid.add(threadLabel, 1, i);
+            grid.add(btn, 2, i);
         };
         
         
@@ -105,9 +111,7 @@ public class ForumView extends GridPane {
         });
         
         
-        
-        
-        
+        setContent(grid);
     }
 
     public ArrayList<DiscussionThread> getThreadCache() {

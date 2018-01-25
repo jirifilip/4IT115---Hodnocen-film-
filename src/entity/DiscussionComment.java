@@ -75,6 +75,10 @@ public class DiscussionComment extends Model {
     public String getAuthorName() {
         return User.fetchUser(userId).getUsername();
     }
+    
+    public User getAuthor() {
+        return User.fetchUser(userId);
+    }
 
     public void setUserId(int userId) {
         this.userId = userId;

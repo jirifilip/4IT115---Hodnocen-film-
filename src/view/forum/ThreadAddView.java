@@ -29,10 +29,10 @@ public class ThreadAddView extends GridPane {
     
     private TextField titleField = new TextField();
     
-    private Label titleLabel = new Label("Název stránky");
+    private Label titleLabel = new Label("Název vlákna");
     
     
-    private Button addMovieSiteButton = new Button("Ulož stránku");
+    private Button addMovieSiteButton = new Button("Ulož vlákno");
     
     
     public ThreadAddView(MainController controller) {
@@ -58,11 +58,13 @@ public class ThreadAddView extends GridPane {
         add(addMovieSiteButton, 1, 1);
         
         addMovieSiteButton.setOnAction(e -> {
-            String name = titleField.getText();
-            
-            new DiscussionThread(name);
-            
-            controller.getMainAppView().onForumButtonClick(new ActionEvent());
+            if (!titleField.getText().isEmpty()) {
+                String name = titleField.getText();
+
+                new DiscussionThread(name);
+
+                controller.getMainAppView().onForumButtonClick(new ActionEvent());
+            }
        });
     }
     

@@ -28,7 +28,9 @@ import javafx.scene.text.Text;
  *
  * @author Jirka_
  */
-public class MovieSiteListView extends GridPane {
+public class MovieSiteListView extends ScrollPane {
+    
+    private GridPane grid = new GridPane();
     
     private MainController controller;
     private Button addMoviePageButton = new Button("Přidej novou filmovou stránku");
@@ -44,13 +46,16 @@ public class MovieSiteListView extends GridPane {
     }
     
     public void init() {
-        setAlignment(Pos.TOP_CENTER);
-        setVgap(10);
-        setHgap(10);
-        setPadding(new Insets(15, 15, 15, 15));
+        setContent(null);
+        setFitToWidth(true);
+        
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(15, 15, 15, 15));
         
         
-        this.getChildren().clear();
+        grid.getChildren().clear();
         
         
         ArrayList<MovieSite> movies;
@@ -69,15 +74,15 @@ public class MovieSiteListView extends GridPane {
         urlHeader.setFill(Paint.valueOf("white"));
         ratingHeader.setFill(Paint.valueOf("white"));
         
-        add(nameHeader, 0, 0);
-        add(urlHeader, 1, 0);
-        add(ratingHeader, 2, 0);
+        grid.add(nameHeader, 0, 0);
+        grid.add(urlHeader, 1, 0);
+        grid.add(ratingHeader, 2, 0);
         
         Separator separator = new Separator();
         separator.setOrientation(Orientation.HORIZONTAL);
         separator.setStyle("-fx-background-color: white; -fx-fill: white");
         
-        add(separator, 0, 1, 4, 1);
+        grid.add(separator, 0, 1, 4, 1);
         
         int i = 2;
         
@@ -101,19 +106,19 @@ public class MovieSiteListView extends GridPane {
                 controller.getMainAppView().moviePageDetailView(movie);
             });
             
-            add(pageName, 0, i);
-            add(urlText, 1, i);
-            add(ratingText, 2, i);
-            add(goToPageButton, 3, i);
+            grid.add(pageName, 0, i);
+            grid.add(urlText, 1, i);
+            grid.add(ratingText, 2, i);
+            grid.add(goToPageButton, 3, i);
                     
             
             i++;
         };
         
-        add(addMoviePageButton, 0, i, 4, 1);
+        grid.add(addMoviePageButton, 0, i, 4, 1);
         
         
-        
+        setContent(grid);
     }
 
     public void setMoviesCache(ArrayList<MovieSite> moviesCache) {

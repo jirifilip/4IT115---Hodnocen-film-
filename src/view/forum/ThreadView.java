@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -79,6 +80,7 @@ public class ThreadView extends ScrollPane {
         
         int i = 1;
         for (DiscussionComment comment : commentList) {
+            ImageView image = new ImageView(comment.getAuthor().getProfileImage(50, 50));
             Label nameLabel = new Label(comment.getAuthorName());
             TextArea textArea = new TextArea();
             textArea.setText(comment.getText());
@@ -88,9 +90,10 @@ public class ThreadView extends ScrollPane {
             
             String dateString = new Date(comment.getCreatedAt().getTime()).toLocaleString();
             
-            commentBox.add(new Label(dateString), 0, i);
-            commentBox.add(nameLabel, 1, i);
-            commentBox.add(textArea, 2, i);
+            commentBox.add(image, 0, i);
+            commentBox.add(new Label(dateString), 1, i);
+            commentBox.add(nameLabel, 2, i);
+            commentBox.add(textArea, 3, i);
             
             i++;
         };

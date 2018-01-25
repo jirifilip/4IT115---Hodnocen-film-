@@ -11,6 +11,7 @@ import entity.DiscussionComment;
 import entity.DiscussionForum;
 import entity.DiscussionThread;
 import entity.MovieSite;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -59,6 +60,15 @@ public class MoviePagesRating extends Application {
         
 
     }
+    
+    public static void openWebpage(String url) {
+        try {
+            new ProcessBuilder("x-www-browser", url).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     /**
      * @param args the command line arguments
