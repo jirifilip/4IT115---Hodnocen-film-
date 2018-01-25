@@ -42,6 +42,8 @@ public class ForumView extends GridPane {
     
     private MainController controller;
     
+    private ArrayList<DiscussionThread> threadCache;
+    
     
     public ForumView(MainController controller) {
         this.controller = controller;
@@ -59,7 +61,12 @@ public class ForumView extends GridPane {
     public void init() {
         this.getChildren().clear();
         
-        ArrayList<DiscussionThread> discussionThreadsList = controller.getForum().getDiscussionThreadsList();
+        ArrayList<DiscussionThread> discussionThreadsList;
+        if (threadCache == null) {
+            discussionThreadsList = controller.getForum().getDiscussionThreadsList();
+        } else {
+            discussionThreadsList = threadCache;
+        }
         
         
         if (controller.isCurrentUserAdmin()) {
@@ -101,6 +108,14 @@ public class ForumView extends GridPane {
         
         
         
+    }
+
+    public ArrayList<DiscussionThread> getThreadCache() {
+        return threadCache;
+    }
+
+    public void setThreadCache(ArrayList<DiscussionThread> threadCache) {
+        this.threadCache = threadCache;
     }
     
     

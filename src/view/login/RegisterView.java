@@ -7,6 +7,11 @@ package view.login;
 
 import controller.MainController;
 import entity.User;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,7 +26,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import utils.Crypto;
 
 /**
  *
@@ -43,6 +50,12 @@ public class RegisterView extends GridPane {
     private Label usernameLabel = new Label("Uživatelské jméno");
     private Label emailLabel = new Label("Email");
     private Label passwordLabel = new Label("Heslo");
+    private Label pictureNameLabel = new Label("[...]");
+
+    
+    private FileChooser fileChooser = new FileChooser();
+    private Button openFileButton = new Button("Zvol profilovou fotku...");
+    private File profilePicture;
     
     
     private TextField usernameTextField = new TextField();
@@ -52,6 +65,11 @@ public class RegisterView extends GridPane {
     
     private Button registerButton = new Button("Registrovat se");
     private Button backToLoginButton = new Button("Zpět");
+    
+    
+    public static final String usernameRegex = "([a-zA-Z0-9]){5,15}";
+    public static final String emailRegex = "(.+)@(.+)";
+    public static final String passwordRegex = ".{5,15}";
     
     
     private MainController controller;
@@ -88,8 +106,13 @@ public class RegisterView extends GridPane {
         add(passwordLabel, 0, 3);
         add(passwordTextField, 1, 3);
         
-        add(registerButton, 1, 4);
-        add(backToLoginButton, 1, 5);
+        add(pictureNameLabel, 0, 4);
+        add(openFileButton, 1, 4);
+        
+        add(registerButton, 1, 5);
+        add(backToLoginButton, 1, 6);
+        
+        
         
 
 
@@ -102,6 +125,13 @@ public class RegisterView extends GridPane {
         backToLoginButton.setOnAction(e -> {
             controller.loginView();
         });
+        
+        openFileButton.setOnAction(e -> {
+            profilePicture = fileChooser.showOpenDialog(primaryStage);
+            if (profilePicture != null) {
+                pictureNameLabel.setText(profilePicture.getName());
+            }
+        });
 
     }
     
@@ -111,17 +141,37 @@ public class RegisterView extends GridPane {
         String email = emailTextField.getText();
         String password = passwordTextField.getText();
         
-        if (!(username.isEmpty() || email.isEmpty() || password.isEmpty())) {
+        String currentDir = System.getProperty("user.dir");
+        
+        if (username.matches(usernameRegex) &&
+            email.matches(emailRegex) && password.matches(passwordRegex)) {
+            
             User user = new User(username, email, password);
             controller.setCurrentUser(user);
             user.reload();
+
+            try {
+                if (profilePicture != null) {
+                    Path sourcePath = profilePicture.toPath();
+                    String destPath = currentDir + "/src/resources/" + user.getUsername() + ".jpg";
+                    Files.copy(sourcePath, new File(destPath).toPath(),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    
+                    user.setProfilePhotoUrl(destPath);
+                    user.update();
+                    
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             
             controller.alert("Oznámení", "Registrace dokončena", 
                         "Vítejte v aplikaci!");
             
             controller.mainView();
-            
-            
+        } else {
+            controller.alert("Oznámení", "", 
+                        "Špatně zadané uživatelské jméno, email nebo heslo.");
         }
         
         

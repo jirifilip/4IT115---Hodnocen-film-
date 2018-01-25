@@ -6,6 +6,7 @@
 package entity;
 
 import db.Database;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Stream;
+import javafx.scene.image.Image;
 import utils.Crypto;
 
 /**
@@ -31,6 +33,8 @@ public class User extends Model {
     private String registrationDate;
     private String lastLogin;
     private String admin;
+    
+    private final String placeholderURL = "/resources/placeholder.jpg";
 
     public User(int id, String username, String email, String password, String profileDescription, String profilePhotoUrl, String registrationDate, String lastLogin, String admin) {
         this.id = id;
@@ -178,6 +182,8 @@ public class User extends Model {
                     + "admin=? "
                     + "where id_user=? "
                     , paramList);
+        
+        System.out.println(this.profilePhotoUrl);
     }
     
     public boolean hasRatedMovieSite(MovieSite movieSite) {
@@ -250,7 +256,61 @@ public class User extends Model {
         
         return users;
     }
+    
+    public Image getProfileImage(double w, double h) {
+        File file = new File(System.getProperty("user.dir") + "/src/resources/" + getUsername() + ".jpg");
+        String url = file.exists() ? "/resources/" + getUsername() + ".jpg" : placeholderURL;
+        
+        return new Image(User.class.getResourceAsStream(url), w, h, true, true);
+    }
+    
+    
+    public static ArrayList<User> searchFor(String searchString) {
+        ArrayList<User> users = new ArrayList<>();
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement("select * from user where username like ?"
+                    + " or profile_desc like ?");
 
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                
+                int id_ = rs.getInt(1);
+                String username_ = rs.getString(2);
+                String email_ = rs.getString(3);
+                String password_ = rs.getString(4);
+                String profileDesc = rs.getString(5);
+                String profilePhoto = rs.getString(6);
+                String registeredAt = rs.getString(7);
+                String lastLogin = rs.getString(8);
+                String admin = rs.getString(9);
+                
+                User user = new User(id_, username_, email_, password_, profileDesc, profilePhoto, registeredAt, lastLogin, admin);
+                
+                
+                users.add(user);
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return users;
+    }
+    
+    
+    
     public int getId() {
         return id;
     }

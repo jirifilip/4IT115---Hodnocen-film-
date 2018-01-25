@@ -111,6 +111,8 @@ public class LoginView extends GridPane {
         if (user != null) {
             controller.setCurrentUser(user);
             controller.mainView();
+        } else {
+            controller.alert("Chyba", "Špatná kombinace jména a hesla", "");
         }
         
         

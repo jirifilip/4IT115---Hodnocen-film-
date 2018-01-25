@@ -104,7 +104,7 @@ public class ProfileSettingView extends GridPane {
             String newPassword = newPasswordField.getText();
             String confirmPassword = confirmPasswordField.getText();
             
-            if (newPassword.isEmpty()) {
+            if (!newPassword.isEmpty()) {
                 if (newPassword.equals(confirmPassword)) {
                     user.setPassword(newPassword);
                 }

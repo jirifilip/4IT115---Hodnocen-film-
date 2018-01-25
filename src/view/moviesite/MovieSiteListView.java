@@ -33,6 +33,8 @@ public class MovieSiteListView extends GridPane {
     private MainController controller;
     private Button addMoviePageButton = new Button("Přidej novou filmovou stránku");
     
+    private ArrayList<MovieSite> moviesCache;
+    
     public MovieSiteListView(MainController controller) {
         this.controller = controller;
     
@@ -51,7 +53,13 @@ public class MovieSiteListView extends GridPane {
         this.getChildren().clear();
         
         
-        ArrayList<MovieSite> movies = MovieSite.fetchAll();
+        ArrayList<MovieSite> movies;
+        if (moviesCache == null) {
+            movies = MovieSite.fetchAll();
+        } else {
+            movies = moviesCache;
+        }
+        
         
         Text nameHeader = new Text("Jméno stránky");
         Text urlHeader = new Text("URL");
@@ -107,5 +115,12 @@ public class MovieSiteListView extends GridPane {
         
         
     }
+
+    public void setMoviesCache(ArrayList<MovieSite> moviesCache) {
+        this.moviesCache = moviesCache;
+    }
+    
+    
+    
     
 }

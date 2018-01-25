@@ -125,6 +125,40 @@ public class DiscussionThread extends Model {
         return threads;
     }
     
+    
+    public static ArrayList<DiscussionThread> searchFor(String searchString) {
+        ArrayList<DiscussionThread> threads = new ArrayList<>();
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement("select * from discussion_thread"
+                    + " where title like ?");
+            
+            statement.setString(1, "%" + searchString + "%");
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String title = rs.getString(2);
+                Timestamp createdAt = rs.getTimestamp(3);
+                
+                threads.add(new DiscussionThread(id, title, createdAt));
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return threads;
+    }
+    
 
     public int getId() {
         return id;

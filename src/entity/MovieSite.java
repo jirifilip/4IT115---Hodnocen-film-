@@ -202,6 +202,54 @@ public class MovieSite extends Model {
         
         return movies;
     }
+    
+    
+    
+    public static ArrayList<MovieSite> searchFor(String searchString) {
+        ArrayList<MovieSite> movies = new ArrayList<>();
+        
+        try (Connection conn = Database.getConnection()){
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            
+            statement = conn.prepareStatement("select * from movie_page"
+                    + " where name like ? "
+                    + "or description like ?");
+            
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
+            
+            rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                
+                int id_ = rs.getInt(1);
+                
+                String title = rs.getString(2);
+                String description = rs.getString(3);
+                String url = rs.getString(4);
+                int addIntensity = rs.getInt(5);
+                boolean containsMovies = rs.getBoolean(6);
+                boolean containsShows = rs.getBoolean(7);
+                boolean requiresLogin = rs.getBoolean(8);
+                        
+                MovieSite moviePage = new MovieSite(id_, title, description,
+                    url, addIntensity, containsMovies, containsShows, requiresLogin);
+                
+                
+                movies.add(moviePage);
+            }
+            
+            statement.close();
+            conn.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return movies;
+    }
      
     
 

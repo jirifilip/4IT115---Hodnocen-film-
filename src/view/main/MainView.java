@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import view.forum.ThreadAddView;
 import view.moviesite.MovieSiteAddView;
 import view.moviesite.MovieSiteEditView;
+import view.search.SearchView;
 import view.user.ProfileSettingView;
 import view.user.UserDetailView;
 import view.user.UserListView;
@@ -61,7 +62,8 @@ public class MainView extends BorderPane {
     private Button myProfileButton = new Button("Můj profil");
     private Button forumButton = new Button("Diskuzní fórum");
     private Button usersButton = new Button("Uživatelé");
-    private Button logoutButton = new Button("Odhlásit se");   
+    private Button logoutButton = new Button("Odhlásit se");
+    private Button searchButton = new Button("Vyhledávání");
     
     private UserListView userListView;
     private UserDetailView userDetailView;
@@ -75,6 +77,8 @@ public class MainView extends BorderPane {
     private MovieSiteAddView addMovieSiteView;
     private MovieSiteDetailView movieSiteDetailView;
     private MovieSiteEditView movieSiteEditView;
+    
+    private SearchView searchView;
     
     
     
@@ -96,6 +100,8 @@ public class MainView extends BorderPane {
         movieSiteEditView = new MovieSiteEditView(controller);
         threadAddView = new ThreadAddView(controller);
         
+        searchView = new SearchView(controller);
+        
         scene = new Scene(this, width, height);
         scene.getStylesheets().add("style/main.css");
         this.primaryStage = controller.getPrimaryStage();
@@ -104,20 +110,21 @@ public class MainView extends BorderPane {
     }
 
     private void init() {
+        searchButton.setId("ipad-grey");
         sitesButton.setId("ipad-grey");
         myProfileButton.setId("ipad-grey");
         forumButton.setId("ipad-grey");
         usersButton.setId("ipad-grey");
         logoutButton.setId("ipad-grey");
         
-        usernameLabel.setFont(Font.font("verdana", 18));
+        usernameLabel.setFont(Font.font("verdana", 26));
         
         Separator separator = new Separator();
         separator.setOrientation(Orientation.HORIZONTAL);
         separator.setStyle("-fx-background-color: white; -fx-fill: white");
         
-        leftVBox.getChildren().addAll(usernameLabel, separator, sitesButton,
-                myProfileButton, forumButton, usersButton, logoutButton);
+        leftVBox.getChildren().addAll(usernameLabel, separator, searchButton, 
+                sitesButton, myProfileButton, forumButton, usersButton, logoutButton);
         
         setLeft(leftVBox);
         setCenter(profileView);
@@ -130,6 +137,9 @@ public class MainView extends BorderPane {
         primaryStage.setScene(scene);
         
         primaryStage.show();
+        
+        searchButton.setOnAction(this::onSearchClick);
+        searchButton.setMaxWidth(Double.MAX_VALUE);
         
         forumButton.setOnAction(this::onForumButtonClick);
         forumButton.setMaxWidth(Double.MAX_VALUE);
@@ -162,6 +172,7 @@ public class MainView extends BorderPane {
     }
     
     public void onForumButtonClick(ActionEvent event) {
+        forumView.setThreadCache(null);
         forumView.init();
         setCenter(forumView);
     }
@@ -172,6 +183,12 @@ public class MainView extends BorderPane {
     }
     
     public void onMovieSitesClick(ActionEvent event) {
+        movieListView.setMoviesCache(null);
+        movieListView.init();
+        setCenter(movieListView);
+    }
+    
+    public void searchMovies() {
         movieListView.init();
         setCenter(movieListView);
     }
@@ -179,6 +196,11 @@ public class MainView extends BorderPane {
     public void onNewMoviePageClick(ActionEvent event) {
         addMovieSiteView.init();
         setCenter(addMovieSiteView);
+    }
+    
+    public void onSearchClick(ActionEvent event) {
+        searchView.init();
+        setCenter(searchView);
     }
 
     public ThreadView getThreadView() {
@@ -210,10 +232,21 @@ public class MainView extends BorderPane {
     }
     
     public void onUserListViewClick(ActionEvent event) {
+        userListView.setUsersCache(null);
         userListView.init();
         setCenter(userListView);
     }
 
+    public void searchUsers() {
+        userListView.init();
+        setCenter(userListView);
+    }
+    
+    public void searchThreads() {
+        forumView.init();
+        setCenter(forumView);
+    }
+    
     public void threadView(DiscussionThread thread) {
         threadView.init(thread);
         setCenter(threadView);
@@ -222,6 +255,91 @@ public class MainView extends BorderPane {
     public void newThreadView() {
         setCenter(threadAddView);
     }
+
+    public UserListView getUserListView() {
+        return userListView;
+    }
+
+    public void setUserListView(UserListView userListView) {
+        this.userListView = userListView;
+    }
+
+    public UserDetailView getUserDetailView() {
+        return userDetailView;
+    }
+
+    public void setUserDetailView(UserDetailView userDetailView) {
+        this.userDetailView = userDetailView;
+    }
+
+    public ProfileSettingView getProfileView() {
+        return profileView;
+    }
+
+    public void setProfileView(ProfileSettingView profileView) {
+        this.profileView = profileView;
+    }
+
+    public ThreadAddView getThreadAddView() {
+        return threadAddView;
+    }
+
+    public void setThreadAddView(ThreadAddView threadAddView) {
+        this.threadAddView = threadAddView;
+    }
+
+    public MovieSiteListView getMovieListView() {
+        return movieListView;
+    }
+
+    public void setMovieListView(MovieSiteListView movieListView) {
+        this.movieListView = movieListView;
+    }
+
+    public MovieSiteAddView getAddMovieSiteView() {
+        return addMovieSiteView;
+    }
+
+    public void setAddMovieSiteView(MovieSiteAddView addMovieSiteView) {
+        this.addMovieSiteView = addMovieSiteView;
+    }
+
+    public MovieSiteDetailView getMovieSiteDetailView() {
+        return movieSiteDetailView;
+    }
+
+    public void setMovieSiteDetailView(MovieSiteDetailView movieSiteDetailView) {
+        this.movieSiteDetailView = movieSiteDetailView;
+    }
+
+    public MovieSiteEditView getMovieSiteEditView() {
+        return movieSiteEditView;
+    }
+
+    public void setMovieSiteEditView(MovieSiteEditView movieSiteEditView) {
+        this.movieSiteEditView = movieSiteEditView;
+    }
+
+    public SearchView getSearchView() {
+        return searchView;
+    }
+
+    public void setSearchView(SearchView searchView) {
+        this.searchView = searchView;
+    }
+
+    public ForumView getForumView() {
+        return forumView;
+    }
+
+    public void setForumView(ForumView forumView) {
+        this.forumView = forumView;
+    }
+    
+    
+    
+    
+    
 
 }
 
