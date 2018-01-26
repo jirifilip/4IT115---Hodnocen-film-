@@ -25,7 +25,8 @@ public class Database {
     private static Database db;
     
     private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String dbConnection = "jdbc:mysql://127.0.0.1:3306/4it115_movies";
+    private static final String dbConnection =
+            "jdbc:mysql://127.0.0.1:3306/4it115_movies?useUnicode=true&characterEncoding=UTF-8";
     private static final String dbUser = "root";
     private static final String dbPassword = "";
     

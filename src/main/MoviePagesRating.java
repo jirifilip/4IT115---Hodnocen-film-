@@ -47,7 +47,7 @@ import view.login.LoginView;
 public class MoviePagesRating extends Application {
 
     private static final String DB_DRIVER = "com.mysql.jdbc.ClientDriver";
-    private static final String dbConnection = "jdbc:derby://127.0.0.1:1527/movies";
+    private static final String dbConnection = "jdbc:derby://127.0.0.1:1527/movies?useUnicode=true&characterEncoding=UTF-8";
     private static final String dbUser = "root";
     private static final String dbPassword = "";
 

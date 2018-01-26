@@ -104,12 +104,15 @@ public class MovieSiteAddView extends GridPane {
             boolean shows = includesShowsBox.isSelected();
             boolean login = requiresLoginBox.isSelected();
             
-            if (!name.matches("[A-Za-z0-9]{4,}")&& !url.matches("www\\.[a-z0-9A-Z]\\.[a-z]+")) {
+            if (name.matches("(\\p{L}){4,}") && url.matches("www\\.[a-z0-9A-Z]{2,}\\.[a-z]+")) {
                 new MovieSite(name, desc, url, addIntensity, movies, shows, login);
                 
                 controller.getMainAppView().onMovieSitesClick(new ActionEvent());
             } else {
-                controller.alert("Chyba", "", "Vyplňte alespoň název (alespoň 4 znaky) a url stránky (ve tvaru www.[jméno].[doména]!");
+                System.out.println(name.matches("(\\p{L}){4,}"));
+                System.out.println(url.matches("www\\.[a-z0-9A-Z]{2,}\\.[a-z]+"));
+                
+                controller.alert("Chyba", "", "Vyplňte alespoň název (alespoň 4 znaky a bez mezer) a url stránky (ve tvaru www.[jméno].[doména]!");
             }
             
             
