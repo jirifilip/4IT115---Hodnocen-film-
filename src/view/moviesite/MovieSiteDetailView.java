@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 import main.MoviePagesRating;
 
 /**
- *
+ * UI třída pro pohled na detail filmu
  * @author Jirka_
  */
 public class MovieSiteDetailView extends ScrollPane {
@@ -58,7 +58,10 @@ public class MovieSiteDetailView extends ScrollPane {
     
     private Button editMovieSiteButton = new Button("Uprav stránku");
     
-    
+    /**
+     * Konstruktor pro vytvoření vyhledu
+     * @param controller
+     */
     public MovieSiteDetailView(MainController controller) {
         this.controller = controller;
         
@@ -69,9 +72,10 @@ public class MovieSiteDetailView extends ScrollPane {
 
     }
     
-    
-    
-    
+    /**
+     * Metoda pro inicializaci pohledu
+     * @param moviePage
+     */
     public void init(MovieSite moviePage) {
         setContent(null);
         setFitToWidth(true);

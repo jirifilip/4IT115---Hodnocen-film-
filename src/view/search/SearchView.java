@@ -24,7 +24,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
+ * UI třída pro pohledu vyhledávání
+ * 
  * @author Jirka_
  */
 public class SearchView extends GridPane {
@@ -39,14 +40,19 @@ public class SearchView extends GridPane {
     private Button searchUsersButton = new Button("Vyhledat uživatele");
     private Button searchThreadsButton = new Button("Vyhledat diskuzní vlákno");
 
-    
+    /**
+     * Konstruktor pohledu
+     * @param controller
+     */
     public SearchView(MainController controller) {
         this.controller = controller;
         
         init();
     }
     
-    
+    /**
+     * inicializace pohledu
+     */
     public void init() {
         this.getChildren().clear();
         

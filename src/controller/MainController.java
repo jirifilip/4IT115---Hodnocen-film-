@@ -17,7 +17,8 @@ import view.main.MainView;
 import view.login.RegisterView;
 
 /**
- *
+ *  Třída slouží jako hlavní controller aplikace.
+ * 
  * @author Jirka_
  */
 public class MainController {
@@ -31,6 +32,9 @@ public class MainController {
     private MainView mainAppView;
     
     
+    /**
+    * Metoda slouž pro zobrazení chybové hlášky. 
+    */
     public static void alert(String title, String headerText, String contentText) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -40,11 +44,17 @@ public class MainController {
         alert.showAndWait();
     }
     
+    /**
+    * Konstruktor třídy.
+    */
     public MainController(Stage primaryStage) {
         this.primaryStage = primaryStage;
         
     }
     
+    /**
+    * Metoda slouží pro zjištění, zda aktuální uživatel je admin. 
+    */
     public boolean isCurrentUserAdmin() {
         if (currentUser != null) {
             if (currentUser.isAdmin()) {
@@ -55,30 +65,34 @@ public class MainController {
         return false;
     }
     
+    /**
+    * Metoda pro start kontroleru. 
+    */
     public void start() {
         
     }
     
+    /**
+    * Metoda pro pohled login. 
+    */
     public void loginView() {
         new LoginView(this);
     }
     
+    /**
+    * Metoda pro pohled registrace. 
+    */
     public void registerView() {
         new RegisterView(this);
     }
     
-    public void forumView() {
-    }
-    
-    public void profileView() {
-        
-    }
-    
+    /**
+    * Metoda pro hlavní pohled. 
+    */
     public void mainView() {
         this.mainAppView = new MainView(this);
     }
     
-
     public DiscussionForum getForum() {
         return forum;
     }

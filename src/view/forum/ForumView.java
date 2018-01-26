@@ -28,7 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- *
+ * UI třída pro fórum
  * @author Jirka_
  */
 public class ForumView extends ScrollPane {
@@ -47,7 +47,11 @@ public class ForumView extends ScrollPane {
     
     private ArrayList<DiscussionThread> threadCache;
     
-    
+    /**
+     * Konstruktor pro třídu
+     * 
+     * @param controller
+     */
     public ForumView(MainController controller) {
         this.controller = controller;
         
@@ -60,7 +64,9 @@ public class ForumView extends ScrollPane {
         init();
     }
     
-
+    /**
+     * Inicializace fóra
+     */
     public void init() {
         setContent(null);
         setFitToWidth(true);
@@ -115,6 +121,10 @@ public class ForumView extends ScrollPane {
         setContent(grid);
     }
 
+    /**
+     * Metoda pro vrácení cache vláken
+     * @return cache vláken
+     */
     public ArrayList<DiscussionThread> getThreadCache() {
         return threadCache;
     }

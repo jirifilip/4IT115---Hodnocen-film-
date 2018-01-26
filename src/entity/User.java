@@ -19,7 +19,8 @@ import javafx.scene.image.Image;
 import utils.Crypto;
 
 /**
- *
+ * Entita uživatel
+ * 
  * @author Jirka_
  */
 public class User extends Model {
@@ -36,6 +37,19 @@ public class User extends Model {
     
     private final String placeholderURL = "/resources/placeholder.jpg";
 
+    /**
+     * Konstruktor pro vytvoření uživatele při přenosu z databáze.
+     * 
+     * @param id
+     * @param username
+     * @param email
+     * @param password
+     * @param profileDescription
+     * @param profilePhotoUrl
+     * @param registrationDate
+     * @param lastLogin
+     * @param admin
+     */
     public User(int id, String username, String email, String password, String profileDescription, String profilePhotoUrl, String registrationDate, String lastLogin, String admin) {
         this.id = id;
         this.email = email;
@@ -48,8 +62,15 @@ public class User extends Model {
         this.admin = admin;
     }
     
-    
-
+    /**
+     *
+     * Kontruktor pro vytváření uživatele při vytvoření nového uživatele
+     * v databázi
+     * 
+     * @param username
+     * @param email
+     * @param password
+     */
     public User(String username, String email, String password) {
         
         this.username = username;
@@ -75,10 +96,22 @@ public class User extends Model {
         this.admin = "0";
     }
     
+    /**
+     * Na základě jména a hesla přinese uživatele
+     * @param username
+     * @param password
+     * @return uživatele
+     */
     public static User fetchUser(String username, String password) {
         return Database.getInstance().fetchUser(username, password);
     }
     
+    /**
+     * Na základě id přinese uživatele
+     * 
+     * @param userId
+     * @return uživatel
+     */
     public static User fetchUser(int userId) {
         PreparedStatement statement = null;
         User user = null;
@@ -119,6 +152,9 @@ public class User extends Model {
         return user;
     }
     
+    /**
+     * Znovu načtení konkrétní instance z databáze
+     */
     public void reload() {
         PreparedStatement statement = null;
 
@@ -140,12 +176,9 @@ public class User extends Model {
                 this.registrationDate = rs.getString(8);
                 this.admin = rs.getString(9);
                 
-                System.out.println(rs.getString(9));
                 
             }
             
-            System.out.println("Reloaded");
-            System.out.println(this.admin);
 
             rs.close();
                 
@@ -156,6 +189,10 @@ public class User extends Model {
         }
     }
     
+    /**
+     * Metoda pro aktualizaci údajů v databázi na základě
+     * změněných atributů instance
+     */
     public void update() {
         ArrayList<String> paramList = new ArrayList<>();
         paramList.add(this.username);
@@ -183,9 +220,14 @@ public class User extends Model {
                     + "where id_user=? "
                     , paramList);
         
-        System.out.println(this.profilePhotoUrl);
     }
     
+    /**
+     * Metoda pro zjištění, zda uživatel hodnotil filmovou stránku
+     * 
+     * @param movieSite
+     * @return jestli už uživatel hodnotil filmovou stránku
+     */
     public boolean hasRatedMovieSite(MovieSite movieSite) {
         boolean result = false;
         
@@ -217,6 +259,10 @@ public class User extends Model {
         return result;
     }
     
+    /**
+     * Statická metoda pro přinesení všech uživatelů.
+     * @return seznam uživatelů
+     */
     public static ArrayList<User> fetchAll() {
         ArrayList<User> users = new ArrayList<>();
         
@@ -257,6 +303,12 @@ public class User extends Model {
         return users;
     }
     
+    /**
+     * metoda pro získání profilového obrázku uživatele
+     * @param w
+     * @param h
+     * @return profilový obrázek uživatele
+     */
     public Image getProfileImage(double w, double h) {
         File file = new File(System.getProperty("user.dir") + "/src/resources/" + getUsername() + ".jpg");
         String url = file.exists() ? "/resources/" + getUsername() + ".jpg" : placeholderURL;
@@ -264,7 +316,13 @@ public class User extends Model {
         return new Image(User.class.getResourceAsStream(url), w, h, true, true);
     }
     
-    
+    /**
+     * Statická metoda pro vyhledání uživatele na základě zadaného
+     * textového řetězce
+     * 
+     * @param searchString
+     * @return list uživatelů odpovídající zadanému parametru
+     */
     public static ArrayList<User> searchFor(String searchString) {
         ArrayList<User> users = new ArrayList<>();
         
@@ -384,6 +442,9 @@ public class User extends Model {
         this.admin = admin ? "1" : "0";
     }
 
+    /**
+     * Metoda pro smazání uživatele z databáze
+     */
     public void delete() {
         ArrayList<String> params = new ArrayList<>();
         

@@ -22,7 +22,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
- *
+ * UI třída pro pohled na přidání filmu
+ * 
  * @author Jirka_
  */
 public class MovieSiteAddView extends GridPane {
@@ -48,16 +49,19 @@ public class MovieSiteAddView extends GridPane {
     
     private Button addMovieSiteButton = new Button("Ulož stránku");
     
-    
+    /**
+     * Konstruktor pohledu pro přidání filmové stránky
+     * @param controller
+     */
     public MovieSiteAddView(MainController controller) {
         this.controller = controller;
         
         init();
     }
     
-    
-    
-    
+    /**
+     * Metoda pro inicializaci pohledu
+     */
     public void init() {
         this.getChildren().clear();
         
@@ -109,8 +113,6 @@ public class MovieSiteAddView extends GridPane {
                 
                 controller.getMainAppView().onMovieSitesClick(new ActionEvent());
             } else {
-                System.out.println(name.matches("(\\p{L}){4,}"));
-                System.out.println(url.matches("www\\.[a-z0-9A-Z]{2,}\\.[a-z]+"));
                 
                 controller.alert("Chyba", "", "Vyplňte alespoň název (alespoň 4 znaky a bez mezer) a url stránky (ve tvaru www.[jméno].[doména]!");
             }

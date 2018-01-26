@@ -21,6 +21,8 @@ import javafx.scene.layout.GridPane;
 
 /**
  *
+ * UI třída pro pohled přidání vlákna
+ * 
  * @author Jirka_
  */
 public class ThreadAddView extends GridPane {
@@ -34,16 +36,19 @@ public class ThreadAddView extends GridPane {
     
     private Button addMovieSiteButton = new Button("Ulož vlákno");
     
-    
+    /**
+     * Konstruktor pohledu
+     * @param controller
+     */
     public ThreadAddView(MainController controller) {
         this.controller = controller;
         
         init();
     }
     
-    
-    
-    
+    /**
+     * Metoda pro inicializaci pohledu
+     */
     public void init() {
         this.getChildren().clear();
         

@@ -31,7 +31,8 @@ import javafx.stage.Stage;
 import utils.Crypto;
 
 /**
- *
+ * UI třída pro registrační pohled
+ * 
  * @author Jirka_
  */
 public class RegisterView extends GridPane {
@@ -74,7 +75,10 @@ public class RegisterView extends GridPane {
     
     private MainController controller;
     
-    
+    /**
+     * Konstruktor registračního pohledu
+     * @param controller
+     */
     public RegisterView(MainController controller) {
         this.controller = controller;
         
@@ -85,7 +89,10 @@ public class RegisterView extends GridPane {
         init();
     }
 
-    private void init() {
+    /**
+     * Metoda pro inicializaci pohledu
+     */
+    public void init() {
         
         setAlignment(Pos.CENTER);
         setVgap(10);
@@ -136,6 +143,9 @@ public class RegisterView extends GridPane {
     }
     
     
+    /**
+     * Akce při kliknutí na registrační tlačítko
+     */
     private void onRegisterButtonClick(ActionEvent event) {
         String username = usernameTextField.getText();
         String email = emailTextField.getText();

@@ -23,7 +23,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- *
+ * UI třída pro pohled na editaci filmu
+ * 
  * @author Jirka_
  */
 public class MovieSiteEditView extends GridPane {
@@ -56,7 +57,10 @@ public class MovieSiteEditView extends GridPane {
     private Button saveMovieSiteButton = new Button("Uprav stránku");
     private Button deleteMovieSiteButton = new Button("Smaž stránku");
     
-    
+    /**
+     * Konstruktor pohledu
+     * @param controller
+     */
     public MovieSiteEditView(MainController controller) {
         this.controller = controller;
         
@@ -67,9 +71,10 @@ public class MovieSiteEditView extends GridPane {
 
     }
     
-    
-    
-    
+    /**
+     * Metoda pro inicializaci pohledu pro konkrétní stránku
+     * @param movieSite
+     */
     public void init(MovieSite movieSite) {
         getChildren().clear();
         
@@ -142,7 +147,6 @@ public class MovieSiteEditView extends GridPane {
             boolean shows = includesShowsBox.isSelected();
             boolean login = requiresLoginBox.isSelected();
             
-            System.out.println(name);
             
             movieSite.setAll(name, desc, url, addIntensity, movies, shows, login);
             movieSite.update();

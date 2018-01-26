@@ -25,7 +25,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
- *
+ * UI třída pro pohled vlákno
+ * 
  * @author Jirka_
  */
 public class ThreadView extends ScrollPane {
@@ -38,11 +39,18 @@ public class ThreadView extends ScrollPane {
     
     private Button deleteThread = new Button("Smaž vlákno");
     
-    
+    /**
+     * Konstruktor pohledu na diskuzní vlákna
+     * @param controller
+     */
     public ThreadView(MainController controller) {
         this.controller = controller;
     }
     
+    /**
+     * Inicializace pohledu pro konkrétní diskuzní vlákno
+     * @param thread
+     */
     public void init(DiscussionThread thread) {
         
         this.setContent(null);
@@ -125,6 +133,9 @@ public class ThreadView extends ScrollPane {
        prepare();
     }
     
+    /**
+     * Připravit pohled na základě toho, jaký uživatel aplikaci používá
+     */
     public void prepare() {
         if (controller.getCurrentUser() == null) {
             newCommentTextArea.setVisible(false);

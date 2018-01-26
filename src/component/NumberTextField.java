@@ -10,11 +10,16 @@ import javafx.scene.control.TextField;
 /**
  *
  * @author Jirka_
+ * Třída slouží pro TextField s číselným vstupem
  */
 public class NumberTextField extends TextField
 {
-
-    @Override
+    /**
+    * Metoda slouží změnu textu při vstupu.
+    * 
+    *@Override
+    *
+    */
     public void replaceText(int start, int end, String text)
     {
         if (validate(text))
@@ -23,7 +28,10 @@ public class NumberTextField extends TextField
         }
     }
 
-    @Override
+    /**
+    * Metoda slouží pro replaceování selekce. 
+    * @Override
+    */
     public void replaceSelection(String text)
     {
         if (validate(text))
@@ -32,6 +40,10 @@ public class NumberTextField extends TextField
         }
     }
 
+    /**
+    * Metoda slouží pro ověření textu;
+    * @Override
+    */
     private boolean validate(String text)
     {
         return (getText() + text).matches("^([0-9]|([0-9][0-9]|)|100)$");

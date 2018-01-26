@@ -24,7 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
- *
+ * UI třída pro seznam uživatelů
  * @author Jirka_
  */
 public class UserListView extends ScrollPane {
@@ -35,6 +35,10 @@ public class UserListView extends ScrollPane {
     
     private GridPane grid;
     
+    /**
+     * Konstruktor pohledu
+     * @param controller
+     */
     public UserListView(MainController controller) {
         this.controller = controller;
         
@@ -48,6 +52,9 @@ public class UserListView extends ScrollPane {
         init();
     }
     
+    /**
+     * Inicializace pohledu
+     */
     public void init() {
         this.setContent(null);
         

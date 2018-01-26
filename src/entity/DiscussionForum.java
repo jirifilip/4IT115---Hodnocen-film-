@@ -8,26 +8,36 @@ package entity;
 import java.util.ArrayList;
 
 /**
- *
+ * Entita diskuzní fórum
  * @author Jirka_
  */
 public class DiscussionForum extends Model {
     
-    private ArrayList<DiscussionThread> discussionThreadsList = new ArrayList<DiscussionThread>();
+    private ArrayList<DiscussionThread> discussionThreadsList =
+            new ArrayList<DiscussionThread>();
     
+    /**
+     *  Bezparametrický konstruktor
+     */
     public DiscussionForum() {
         discussionThreadsList = DiscussionThread.fetchAll();
         
-        for (DiscussionThread thread : discussionThreadsList) {
-            System.out.println(thread.getTitle());
-        }
     }
 
+    /**
+     * Metoda pro získání listu diskuzních vláken
+     * @return seznam vláken
+     */
     public ArrayList<DiscussionThread> getDiscussionThreadsList() {
         return DiscussionThread.fetchAll();
     }
 
-    public void setDiscussionThreadsList(ArrayList<DiscussionThread> discussionThreadsList) {
+    /**
+     * nestaví seznam vláken
+     * @param discussionThreadsList
+     */
+    public void setDiscussionThreadsList(
+            ArrayList<DiscussionThread> discussionThreadsList) {
         this.discussionThreadsList = discussionThreadsList;
     }
     

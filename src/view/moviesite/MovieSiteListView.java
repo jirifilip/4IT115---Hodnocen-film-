@@ -26,7 +26,8 @@ import javafx.scene.text.Text;
 import main.MoviePagesRating;
 
 /**
- *
+ * UI třída pro pohled na seznam filmů
+ * 
  * @author Jirka_
  */
 public class MovieSiteListView extends ScrollPane {
@@ -38,6 +39,11 @@ public class MovieSiteListView extends ScrollPane {
     
     private ArrayList<MovieSite> moviesCache;
     
+    /**
+     * Konstruktor pohledu
+     * 
+     * @param controller
+     */
     public MovieSiteListView(MainController controller) {
         this.controller = controller;
     
@@ -46,6 +52,9 @@ public class MovieSiteListView extends ScrollPane {
         init();
     }
     
+    /**
+     * Inicializace pohledu
+     */
     public void init() {
         setContent(null);
         setFitToWidth(true);

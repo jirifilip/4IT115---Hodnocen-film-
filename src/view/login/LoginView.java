@@ -23,7 +23,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 /**
- *
+ * UI třída pro pohled login na aplikaci.
+ * 
+ * 
  * @author Jirka_
  */
 public class LoginView extends GridPane {
@@ -49,6 +51,10 @@ public class LoginView extends GridPane {
     private Button registerButton = new Button("Registrovat se");
     private Button withoutLoginButton = new Button("Pokračovat bez přihlášení");
     
+    /**
+     * Konstruktor login.
+     * @param controller
+     */
     public LoginView(MainController controller) {
         scene = new Scene(this, width, height);
         scene.getStylesheets().add("style/main.css");
@@ -68,6 +74,9 @@ public class LoginView extends GridPane {
         init();
     }
 
+    /**
+     * Inicializace pohledu
+     */
     public void init() {
 
         applicationLogo.setFont(Font.font ("Verdana", 40));
@@ -102,6 +111,9 @@ public class LoginView extends GridPane {
 
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko loginbutton
+     */
     private void onLoginButtonClick(ActionEvent event) {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();

@@ -37,7 +37,7 @@ import view.user.UserDetailView;
 import view.user.UserListView;
 
 /**
- *
+ * Třída pro hlavní okno aplikace - UI
  * @author Jirka_
  */
 public class MainView extends BorderPane {
@@ -84,6 +84,10 @@ public class MainView extends BorderPane {
     
     private MainController controller;
     
+    /**
+     * Konstrukor pro hlavní pohled na aplikaci
+     * @param controller
+     */
     public MainView(MainController controller) {
         this.controller = controller;
         
@@ -109,7 +113,10 @@ public class MainView extends BorderPane {
         init();
     }
 
-    private void init() {
+    /**
+     * Metoda pro inicializaci pohledu
+     */
+    public void init() {
         searchButton.setId("ipad-grey");
         sitesButton.setId("ipad-grey");
         myProfileButton.setId("ipad-grey");
@@ -159,6 +166,10 @@ public class MainView extends BorderPane {
         prepare();
     }
     
+    /**
+     * Metoda pro připravení pohledu na základě oprávnění
+     * používajícího uživatele
+     */
     public void prepare() {
         if (controller.getCurrentUser() == null) {
             logoutButton.setText("Zpět k přihlášení");
@@ -171,34 +182,58 @@ public class MainView extends BorderPane {
         usernameLabel.setFill(Paint.valueOf("white"));
     }
     
+    /**
+     * Hander pro kliknutí na tlačítko fórum
+     * @param event
+     */
     public void onForumButtonClick(ActionEvent event) {
         forumView.setThreadCache(null);
         forumView.init();
         setCenter(forumView);
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko profil
+     * @param event
+     */
     public void onProfileButtonClick(ActionEvent event) {
         profileView.init(controller.getCurrentUser());
         setCenter(profileView);
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko filmových stránek
+     * @param event
+     */
     public void onMovieSitesClick(ActionEvent event) {
         movieListView.setMoviesCache(null);
         movieListView.init();
         setCenter(movieListView);
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko vyhledávat
+     * @param event
+     */
     public void searchMovies() {
-        movieListView.init();
+        movieListView.init();   
         movieListView.init();
         setCenter(movieListView);
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko filmových stránek
+     * @param event
+     */
     public void onNewMoviePageClick(ActionEvent event) {
         addMovieSiteView.init();
         setCenter(addMovieSiteView);
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko vyhledání
+     * @param event
+     */
     public void onSearchClick(ActionEvent event) {
         searchView.init();
         setCenter(searchView);
@@ -212,47 +247,80 @@ public class MainView extends BorderPane {
         this.threadView = threadView;
     }
     
+    /**
+     * Handler pro kliknutí na tlačítko odhlášení
+     * @param event
+     */
     public void onLogoutClick(ActionEvent event) {
         controller.setCurrentUser(null);
         controller.loginView();
     }
 
+    /**
+     * Přechod na pohled detail filmu
+     * @param movie
+     */
     public void moviePageDetailView(MovieSite movie) {
         movieSiteDetailView.init(movie);
         setCenter(movieSiteDetailView);
     }
     
+    /**
+     * Přechod na pohled upravení filmové stránky
+     * @param movieSite
+     */
     public void moviePageEditView(MovieSite movieSite) {
         movieSiteEditView.init(movieSite);
         setCenter(movieSiteEditView);
     }
 
+    /**
+     * Přechod na pohled detail uživatele
+     * @param user
+     */
     public void userDetailView(User user) {
         userDetailView.init(user);
         setCenter(userDetailView);
     }
     
+    /**
+     * Přechod na pohled seznam uživatelů
+     * @param event
+     */
     public void onUserListViewClick(ActionEvent event) {
         userListView.setUsersCache(null);
         userListView.init();
         setCenter(userListView);
     }
 
+    /**
+     * Přechod na pohled vyhledání uživatele
+     */
     public void searchUsers() {
         userListView.init();
         setCenter(userListView);
     }
     
+    /**
+     * Metoda na pohled prohledání diskuzních vláken
+     */
     public void searchThreads() {
         forumView.init();
         setCenter(forumView);
     }
     
+    /**
+     * Přechod na pohled detailu vlákna
+     * @param thread
+     */
     public void threadView(DiscussionThread thread) {
         threadView.init(thread);
         setCenter(threadView);
     }
 
+    /**
+     * Přechod na pohled pro nové diskuzní vlákno
+     */
     public void newThreadView() {
         setCenter(threadAddView);
     }

@@ -44,6 +44,11 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import view.login.LoginView;
 
+/**
+ * Hlavní třída aplikace
+ * 
+ * @author Jirka_
+ */
 public class MoviePagesRating extends Application {
 
     private static final String DB_DRIVER = "com.mysql.jdbc.ClientDriver";
@@ -64,6 +69,10 @@ public class MoviePagesRating extends Application {
 
     }
     
+    /**
+     * Metoda pro otevření prohlížeče se zadanou url adresou.
+     * @param url
+     */
     public static void openWebpage(String url) {
         try {
             Desktop.getDesktop().browse(new URI(url));
@@ -75,6 +84,7 @@ public class MoviePagesRating extends Application {
     
 
     /**
+     * Spouštění uživatelského rozhraní.
      * @param args the command line arguments
      */
     public static void main(String[] args) {

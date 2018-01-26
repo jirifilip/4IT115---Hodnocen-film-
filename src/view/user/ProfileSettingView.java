@@ -29,6 +29,8 @@ import javafx.stage.Stage;
 
 /**
  *
+ * UI třída pro nastavení profilu
+ * 
  * @author Jirka_
  */
 public class ProfileSettingView extends GridPane {
@@ -60,6 +62,10 @@ public class ProfileSettingView extends GridPane {
     
     private Button saveButton = new Button("Uložit nastavení");
     
+    /**
+     * Konstruktor pohledu
+     * @param controller
+     */
     public ProfileSettingView(MainController controller) {
         this.controller = controller;
         
@@ -70,8 +76,12 @@ public class ProfileSettingView extends GridPane {
         
     }
 
+    /**
+     * Inicializace pohledu
+     * 
+     * @param user
+     */
     public void init(User user) {
-        System.out.println("blabla");
         getChildren().clear();
         
         nameField.setText(user.getUsername());

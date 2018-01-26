@@ -19,6 +19,7 @@ import utils.Crypto;
 /**
  *
  * @author Jirka_
+ * Třída pro zacházení s databází
  */
 public class Database {
     
@@ -30,10 +31,15 @@ public class Database {
     private static final String dbUser = "root";
     private static final String dbPassword = "";
     
+    
     private void Database() {
         
     };
     
+    /**
+     * Metoda k získání instance databáze
+     * @return instance databáze
+     */
     public static Database getInstance() {
         synchronized (new Object()) {
             if (db == null) {
@@ -45,10 +51,21 @@ public class Database {
         
     }
     
+    /**
+     * Metoda pro získání spojení s databází
+     * @return vrací spojení s databází
+     * @throws SQLException
+     */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(dbConnection, dbUser, dbPassword);
     }
     
+    /**
+     * Metoda pro získání uživatele.
+     * @param username
+     * @param password
+     * @return
+     */
     public User fetchUser(String username, String password) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -103,6 +120,12 @@ public class Database {
         return user;
     }
     
+    /**
+     * Metoda pro spuštění sql příkazu get
+     * @param parametr
+     * @param callback
+     * @return výsledky sql dotazu
+     */
     public ResultSet executeGet(String parametr, Callback<ResultSet,Void> callback) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -131,7 +154,11 @@ public class Database {
         return null;
     }
     
-    // delete, insert, update
+    /**
+     * Metoda pro delete, update
+     * @param query
+     * @param parameters
+     */
     public void executeAction(String query, List<String> parameters) {
     
         Connection connection = null;
@@ -177,9 +204,11 @@ public class Database {
     
     } 
     
-    
-    
-    
+    /**
+     * Metoda pro provedení příkazu proti databázi
+     * @param funkce
+     * @param parametr
+     */
     public void executeQuery(String funkce, String parametr) {
         
         Connection connection = null;
@@ -199,11 +228,9 @@ public class Database {
 
                 rs = statement.executeQuery();
                 
-                System.out.println(rs);
 
                 while (rs.next()) {
                     String title = rs.getString(2);
-                    System.out.println(title);
                 }
                 
                 rs.close();

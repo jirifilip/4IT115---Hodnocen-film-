@@ -17,6 +17,8 @@ import java.util.Date;
 
 /**
  *
+ * Entita diskuzní vlákno
+ * 
  * @author Jirka_
  */
 public class DiscussionThread extends Model {
@@ -27,6 +29,14 @@ public class DiscussionThread extends Model {
     
     private ArrayList<DiscussionComment> discussionCommentsList = new ArrayList<DiscussionComment>();
 
+    /**
+     *
+     * Konstruktor pro diskuzní vlákno
+     * 
+     * @param id
+     * @param title
+     * @param createdAt
+     */
     public DiscussionThread(int id, String title, Timestamp createdAt) {
         this.id = id;
         this.title = title;
@@ -36,6 +46,10 @@ public class DiscussionThread extends Model {
         
     }
 
+    /**
+     * Konstruktor při vytváření diskuzního vlákna
+     * @param title
+     */
     public DiscussionThread(String title) {
         this.title = title;
         
@@ -54,7 +68,12 @@ public class DiscussionThread extends Model {
                     + "values(?, ?)" , paramList);
     }
     
-    
+    /**
+     * Metoda pro přinesení všech komentářů
+     * 
+     * @param cached
+     * @return komentáře
+     */
     public ArrayList<DiscussionComment> fetchAllComments(boolean cached) {
         if (!discussionCommentsList.isEmpty() && cached) {
             return discussionCommentsList;
@@ -66,7 +85,8 @@ public class DiscussionThread extends Model {
             ResultSet rs = null;
             
             statement = conn.prepareStatement(
-                    "select * from discussion_comment where discussion_thread_id = ?");
+                    "select * from discussion_comment "
+                    + "where discussion_thread_id = ?");
             
             statement.setString(1, String.valueOf(this.id));
             
@@ -95,6 +115,11 @@ public class DiscussionThread extends Model {
         return discussionCommentsList;
     }
     
+    /**
+     * Metoda pro přinesení všech diskuzních vláken
+     * 
+     * @return seznam diskuzních vláken
+     */
     public static ArrayList<DiscussionThread> fetchAll() {
         ArrayList<DiscussionThread> threads = new ArrayList<>();
         
@@ -125,7 +150,12 @@ public class DiscussionThread extends Model {
         return threads;
     }
     
-    
+    /**
+     * Metoda pro vyhledání mezi vlákny
+     * 
+     * @param searchString
+     * @return nalezená vlákna
+     */
     public static ArrayList<DiscussionThread> searchFor(String searchString) {
         ArrayList<DiscussionThread> threads = new ArrayList<>();
         
@@ -184,6 +214,9 @@ public class DiscussionThread extends Model {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Metoda pro smazání diskuzního vlákna
+     */
     public void delete() {
         ArrayList<String> params = new ArrayList<>();
         

@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
+ * Entita diskuzní komentář
  * @author Jirka_
+ * 
  */
 public class DiscussionComment extends Model {
    
@@ -22,6 +23,16 @@ public class DiscussionComment extends Model {
     private String text;
     private Timestamp createdAt;
 
+    /**
+     * Konstruktor pro komentář. Slouží pro vytvoření komentáře při selectu
+     * z databáze
+     * 
+     * @param id
+     * @param discussionThreadId
+     * @param userId
+     * @param text
+     * @param createdAt
+     */
     public DiscussionComment(int id, int discussionThreadId, int userId, String text, Timestamp createdAt) {
         this.id = id;
         this.discussionThreadId = discussionThreadId;
@@ -30,6 +41,13 @@ public class DiscussionComment extends Model {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Metoda pro vytvoření komentáře pokud ho teprve budeme vládat do databáze.
+     * 
+     * @param discussionThreadId
+     * @param userId
+     * @param text
+     */
     public DiscussionComment(int discussionThreadId, int userId, String text) {
         this.discussionThreadId = discussionThreadId;
         this.userId = userId;
@@ -52,34 +70,67 @@ public class DiscussionComment extends Model {
                     + "values(?, ?, ?, ?)" , paramList);
     }
 
+    /**
+     *  getter pro id
+     * 
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * setter pro id
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * getter pro id vlákna
+     * @return thread id
+     */
     public int getDiscussionThreadId() {
         return discussionThreadId;
     }
 
+    /**
+     * nastaví id vlákna
+     * @param discussionThreadId
+     */
     public void setDiscussionThreadId(int discussionThreadId) {
         this.discussionThreadId = discussionThreadId;
     }
 
+    /**
+     * getter pro user id
+     * @return user id
+     */
     public int getUserId() {
         return userId;
     }
     
+    /**
+     * getter pro autorovo jméno
+     * @return autorovo jméno
+     */
     public String getAuthorName() {
         return User.fetchUser(userId).getUsername();
     }
     
+    /**
+     * getter pro autora
+     * @return autor
+     */
     public User getAuthor() {
         return User.fetchUser(userId);
     }
 
+    /**
+     * setter pro id uživatele
+     * @param userId
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }

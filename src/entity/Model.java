@@ -6,7 +6,7 @@
 package entity;
 
 /**
- *
+ * Základní třída model
  * @author Jirka_
  */
 public class Model {

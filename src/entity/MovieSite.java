@@ -15,7 +15,8 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- *
+ * Entita filmová stránka
+ * 
  * @author Jirka_
  */
 public class MovieSite extends Model {
@@ -31,6 +32,19 @@ public class MovieSite extends Model {
     
     private Collection<User> fansList;
 
+    /**
+     * Konstruktor pro vytvoření filmové stránky při přenášení (a selectu) z 
+     * databáze.
+     * 
+     * @param id
+     * @param name
+     * @param description
+     * @param url
+     * @param addsIntensity
+     * @param containsMovies
+     * @param containsTvShows
+     * @param requiresSignIn
+     */
     public MovieSite(int id, String name, String description, String url,
             int addsIntensity, boolean containsMovies, boolean containsTvShows,
             boolean requiresSignIn) {
@@ -45,6 +59,18 @@ public class MovieSite extends Model {
         
     }
     
+    /**
+     *
+     * Konstruktor pro vytvoření filmové stránky a jejího uložení do databáze
+     * 
+     * @param name
+     * @param description
+     * @param url
+     * @param addsIntensity
+     * @param containsMovies
+     * @param containsTvShows
+     * @param requiresSignIn
+     */
     public MovieSite(
             String name, String description, String url, int addsIntensity,
             boolean containsMovies, boolean containsTvShows, boolean requiresSignIn) {
@@ -77,6 +103,13 @@ public class MovieSite extends Model {
         
     }
     
+    /**
+     *
+     * Metoda ohodnocení stránky buď upvotem nebo downvotem.
+     * 
+     * @param upOrDown
+     * @param userId
+     */
     public void rate(boolean upOrDown, int userId) {
         ArrayList<String> params = new ArrayList<>();
         
@@ -92,6 +125,11 @@ public class MovieSite extends Model {
                         params);
     }
     
+    /**
+     * Metoda pro získání hodnocení stránky
+     * 
+     * @return (kladná hodnocení - záporná hodnocení)
+     */
     public int getRating() {
         
         int rating = 0;
@@ -124,6 +162,9 @@ public class MovieSite extends Model {
         return rating;
     }
     
+    /**
+     * Metoda pro aktualizaci filmové stránky na základě změněných hodnot.
+     */
     public void update() {
         ArrayList<String> paramList = new ArrayList<>();
         
@@ -161,7 +202,10 @@ public class MovieSite extends Model {
                 , paramList);
     }
     
-    
+    /**
+     * Statická metoda pro přinesení všech filmových stránek z databáze
+     * @return seznam filmových stránek
+     */
     public static ArrayList<MovieSite> fetchAll() {
         ArrayList<MovieSite> movies = new ArrayList<>();
         
@@ -203,8 +247,13 @@ public class MovieSite extends Model {
         return movies;
     }
     
-    
-    
+    /**
+     * Metoda pro vyhledávání mezi filmovými stránkami na základě zadaného
+     * textového řetězce
+     * 
+     * @param searchString
+     * @return list vyhovujících filmových stránek
+     */
     public static ArrayList<MovieSite> searchFor(String searchString) {
         ArrayList<MovieSite> movies = new ArrayList<>();
         
@@ -325,8 +374,17 @@ public class MovieSite extends Model {
         this.fansList = fansList;
     }
     
-    
-    
+    /**
+     * Metoda pro nastavení všech parametrů.
+     * 
+     * @param name
+     * @param description
+     * @param url
+     * @param addsIntensity
+     * @param containsMovies
+     * @param containsTvShows
+     * @param requiresSignIn
+     */
     public void setAll(
             String name, String description, String url, int addsIntensity,
             boolean containsMovies, boolean containsTvShows, boolean requiresSignIn) {
@@ -340,6 +398,9 @@ public class MovieSite extends Model {
         this.requiresSignIn = requiresSignIn;
     }
 
+    /**
+     * Metoda pro smazání filmové stránky z databáze.
+     */
     public void delete() {
         ArrayList<String> params = new ArrayList<>();
         

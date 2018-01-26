@@ -21,7 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 /**
- *
+ * UI třída pro detail uživatele
+ * 
  * @author Jirka_
  */
 public class UserDetailView extends ScrollPane {
@@ -45,9 +46,10 @@ public class UserDetailView extends ScrollPane {
     private Button deleteUserButton = new Button("Smazat uživatele");
     private Button makeAdminButton = new Button("Povyš na admina");
     
-    
-    
-    
+    /**
+     * Konstruktor pohledu
+     * @param controller
+     */
     public UserDetailView(MainController controller) {
         this.controller = controller;
         
@@ -58,9 +60,10 @@ public class UserDetailView extends ScrollPane {
 
     }
     
-    
-    
-    
+    /**
+     * Inicializace pohledu
+     * @param user
+     */
     public void init(User user) {
         setContent(null);
         grid.getChildren().clear();

@@ -10,11 +10,18 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *
+ * Třída pro zabezpečení aplikace
+ * 
  * @author Jirka_
  */
 public class Crypto {
     
+    /**
+     * Metoda pro hešování textu
+     * 
+     * @param text
+     * @return hešovaný string
+     */
     public static String hashSHA256(String text) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -29,6 +36,11 @@ public class Crypto {
         
     }
     
+    /**
+     * Pomocná metoda pro hešování textu
+     * 
+     * @param hash
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuffer hexString = new StringBuffer();
         for (int i = 0; i < hash.length; i++) {
