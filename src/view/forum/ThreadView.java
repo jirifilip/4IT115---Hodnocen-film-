@@ -108,12 +108,13 @@ public class ThreadView extends ScrollPane {
         addComment = new Button("Přidat komentář");
         
         addComment.setOnAction(e -> {
-            
-            new DiscussionComment(thread.getId(), controller.getCurrentUser().getId(), newCommentTextArea.getText());
+            if (newCommentTextArea.getText().trim().length() > 0) {
+                new DiscussionComment(thread.getId(), controller.getCurrentUser().getId(), newCommentTextArea.getText());
         
-            controller.getMainAppView().onForumButtonClick(new ActionEvent());
+                controller.getMainAppView().onForumButtonClick(new ActionEvent());
         
-            controller.alert("Informace", "Komentář byl přidán!", "");
+                controller.alert("Informace", "Komentář byl přidán!", "");
+            }
         });
         
         commentBox.add(newCommentTextArea, 0, i, 3, 1);

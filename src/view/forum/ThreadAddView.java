@@ -58,7 +58,7 @@ public class ThreadAddView extends GridPane {
         add(addMovieSiteButton, 1, 1);
         
         addMovieSiteButton.setOnAction(e -> {
-            if (!titleField.getText().isEmpty()) {
+            if (titleField.getText().trim().length() > 0){
                 String name = titleField.getText();
 
                 new DiscussionThread(name);
