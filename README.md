@@ -1,7 +1,3 @@
-Jedná se o program pro peer to peer hodnocení stránek, které zdarma streamují filmy a seriály. Obsahuje diskuzní fórum.
+JednÃ¡ se o program pro peer to peer hodnocenÃ­ strÃ¡nek, kterÃ© zdarma streamujÃ­ filmy a seriÃ¡ly. Obsahuje diskuznÃ­ fÃ³rum.
 
-Autor: Jiøí Filip
-
-Verze: 0.00008
-
-Oznaèení verze: Èokoládové potìšení
+Autor: JiÅ™Ã­ Filip
